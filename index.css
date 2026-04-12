@@ -1,4 +1,18 @@
-canvas{
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: #393e5e;
+}
+
+canvas {
     image-rendering: pixelated;
     image-rendering: crisp-edges;
+    display: block;
+    margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
