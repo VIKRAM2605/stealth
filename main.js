@@ -3,7 +3,7 @@ import { gameLoop } from "./character.js";
 export const canvas = document.getElementById("game-canvas");
 export const ctx = canvas.getContext('2d');
 
-const scale = 1;
+export const scale = 2;
 const width = 512;
 const height = 512;
 
@@ -26,6 +26,9 @@ resizeCanvas();
 
 export const characterSpriteSheet = new Image();
 characterSpriteSheet.src = "assets/inspector_spritesheet.png";
+
+export const tileset = new Image();
+tileset.src = "assets/tileset.png";
 
 let loadedCount = 0;
 const imageCount = 1;
@@ -88,5 +91,6 @@ document.addEventListener('keyup', (e) => {
 })
 
 characterSpriteSheet.onload = onImageLoad;
+tileset.onload = onImageLoad;
 
 console.log(canvas, ctx);

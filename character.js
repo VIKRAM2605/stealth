@@ -1,4 +1,5 @@
-import { canvas, characterSpriteSheet, ctx, keys } from "./main.js";
+import { canvas, characterSpriteSheet, ctx, keys, scale } from "./main.js";
+import { drawMap } from "./map.js";
 
 const characterSprite = {
     up: {
@@ -130,7 +131,7 @@ let player = {
     currentFrame: "down",
     frameIndex: 0,
     frameTimer: 0,
-    speed: 100,
+    speed: 50,
 }
 
 //update character only takes horizontal first.
@@ -187,7 +188,7 @@ function drawCharacter() {
     ctx.drawImage(
         characterSpriteSheet,
         (frame.col - 1) * 16, (frame.row - 1) * 16, 16, 16,
-        player.x, player.y, 16 * 2, 16 * 2
+        player.x, player.y, 16 * scale, 16 * scale
     );
 };
 
@@ -198,6 +199,8 @@ export function gameLoop(currentTime) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    
+    drawMap();
     updateCharacter(delta);
 
     drawCharacter();

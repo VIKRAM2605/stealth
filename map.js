@@ -1,0 +1,77 @@
+import { ctx, scale, tileset } from "./main.js";
+
+const tileSize = 16;
+
+const tiles = {
+    0: { row: 1, col: 1 }, //wall horizontal right end
+    1: { row: 1, col: 2 }, //wall vertical right connect
+    2: { row: 1, col: 3 }, //wall vertical no connect
+    3: { row: 1, col: 4 }, //wall horizontal flat end connects
+    4: { row: 2, col: 1 }, //wall vertical top connect right connect botton-left edge
+    5: { row: 2, col: 2 }, //wall vertical top connect left connect botton-right edge
+    6: { row: 2, col: 3 }, //wall vertical straight bottom connect top blocked
+    7: { row: 2, col: 4 }, //wall vertical top-left-right connect bottom blocked
+    8: { row: 3, col: 1 }, //wall vertical bottom-left-right connect top blocked
+    9: { row: 3, col: 2 }, //wall vertical top-bottom connect mid right-connect
+    10: { row: 3, col: 3 }, //floor
+    11: { row: 3, col: 4 }, //wall horizontal right connect left blocked
+    12: { row: 4, col: 1 }, //wall vertical bottom connect left top-edge connect top blocked
+    13: { row: 4, col: 2 }, //wall vertical top connect bottom blocked
+    14: { row: 4, col: 3 },//wall horizontal right connect left blocked
+    15: { row: 4, col: 4 }, //wall vertical top-bottom connect right blocked left-mid connect
+    16: { row: 5, col: 1 }, //wall broken left start
+    17: { row: 5, col: 2 }, //wall broken right start
+};
+
+const maps = {
+    1: [
+        //0  1   2   3   4   5   6   7   8   9   10  11  12  13  14  15
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 0
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 1
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 2
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 3
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 4
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 5
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 6
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 7
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 8
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 9
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 10
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 11
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 12
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 13
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 14
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], //row 15
+
+    ],
+};
+
+let currentLevel = 1;
+
+export function setLevel(n) {
+    currentLevel = n;
+};
+
+export function getCurrentMap() {
+    return maps[currentLevel];
+};
+
+export function drawMap() {
+    const map = getCurrentMap();
+    const size = tileSize * scale;
+
+    for (let row = 0; row < map.length; row++) {
+        for (let col = 0; col < map[row].length; col++) {
+            const tileId = map[row][col];
+            const tile = tiles[tileId];
+
+            if (!tile) tile = { row: 3, col: 3 };
+
+            ctx.drawImage(
+                tileset,
+                (tile.col - 1) * tileSize, (tile.row - 1) * tileSize, tileSize, tileSize,
+                col * size, row * size, size, size
+            )
+        }
+    }
+};
