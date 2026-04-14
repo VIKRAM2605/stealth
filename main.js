@@ -30,6 +30,12 @@ characterSpriteSheet.src = "assets/inspector_spritesheet.png";
 export const tileset = new Image();
 tileset.src = "assets/tileset.png";
 
+export const orbSheet = new Image();
+orbSheet.src = "assets/orb_spritesheet.png";
+
+export const crateSheet = new Image();
+crateSheet.src = "assets/crates_spritesheet.png";
+
 let loadedCount = 0;
 const imageCount = 1;
 
@@ -71,7 +77,6 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('keyup', (e) => {
     e.stopPropagation();
     e.preventDefault();
-    //console.log(keys);
 
     const key = e.key.toLowerCase();
     switch (key) {
@@ -92,5 +97,7 @@ document.addEventListener('keyup', (e) => {
 
 characterSpriteSheet.onload = onImageLoad;
 tileset.onload = onImageLoad;
+orbSheet.onload = onImageLoad;
+crateSheet.onload = onImageLoad;
 
 console.log(canvas, ctx);

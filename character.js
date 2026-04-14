@@ -1,5 +1,7 @@
 import { canvas, characterSpriteSheet, ctx, keys, scale } from "./main.js";
 import { drawMap } from "./map.js";
+import { drawObject } from "./obstacle.js";
+import { updateOrbs } from "./orbs.js";
 
 const characterSprite = {
     up: {
@@ -126,8 +128,8 @@ const deathSprite = {
 let isDead = false;
 let lastTime = 0;
 let player = {
-    x: 0,
-    y: 0,
+    x: 32,
+    y: 16,
     currentFrame: "down",
     frameIndex: 0,
     frameTimer: 0,
@@ -201,7 +203,10 @@ export function gameLoop(currentTime) {
 
     
     drawMap();
+    drawObject();
+    
     updateCharacter(delta);
+    updateOrbs(delta);
 
     drawCharacter();
 
