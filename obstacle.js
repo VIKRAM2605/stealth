@@ -89,7 +89,7 @@ const crateMap = {
         }
     ]
 
-}
+};
 
 export function drawObject() {
     const crates = crateMap[currentLevel];
@@ -108,5 +108,5 @@ export function drawObject() {
             drawX += tileSize * scale;
         }
     }
-}
+};
 

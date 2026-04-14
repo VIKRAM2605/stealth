@@ -1,11 +1,15 @@
 import { gameLoop } from "./character.js";
+import { isTutorialActive, nextStep, startTutorial } from "./info.js";
+
+const pixelFont = new FontFace("PixelFont","url(assets/04B_03__.TTF)");
+pixelFont.load().then(f =>document.fonts.add(f));
 
 export const canvas = document.getElementById("game-canvas");
 export const ctx = canvas.getContext('2d');
 
 export const scale = 2;
-const width = 512;
-const height = 512;
+export const width = 512;
+export const height = 512;
 
 function resizeCanvas() {
     const dpr = window.devicePixelRatio || 1;
@@ -36,14 +40,18 @@ orbSheet.src = "assets/orb_spritesheet.png";
 export const crateSheet = new Image();
 crateSheet.src = "assets/crates_spritesheet.png";
 
+export const computerSheet = new Image();
+computerSheet.src = "assets/computer_screen_large.png";
+
 let loadedCount = 0;
-const imageCount = 1;
+const imageCount = 5;
 
 function onImageLoad() {
     loadedCount++;
     if (loadedCount === imageCount) {
         console.log("started")
-        requestAnimationFrame(gameLoop);
+        //requestAnimationFrame(gameLoop);
+        startTutorial();
     }
 };
 
@@ -59,6 +67,9 @@ document.addEventListener('keydown', (e) => {
     e.stopPropagation();
     const key = e.key.toLowerCase();
     switch (key) {
+        case " ":
+            if(isTutorialActive) nextStep();
+            return;
         case 'w':
             keys.up = true;
             return;
@@ -93,11 +104,19 @@ document.addEventListener('keyup', (e) => {
             keys.right = false;
             return;
     }
+});
+
+document.addEventListener("click",(e)=>{
+    e.stopPropagation();
+    e.preventDefault();
+
+    nextStep();
 })
 
 characterSpriteSheet.onload = onImageLoad;
 tileset.onload = onImageLoad;
 orbSheet.onload = onImageLoad;
 crateSheet.onload = onImageLoad;
+computerSheet.onload = onImageLoad;
 
 console.log(canvas, ctx);
