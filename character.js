@@ -4,6 +4,7 @@ import { currentLevel, drawMap, getCurrentMap, setLevel } from "./map.js";
 import { updateTotal } from "./money.js";
 import { drawObject } from "./obstacle.js";
 import { updateOrbs } from "./orbs.js";
+import { renderDeathScreen } from "./retry.js";
 import { isShopVisible, renderShop, toggleShowShop } from "./shop.js";
 import { drawUi } from "./ui.js";
 
@@ -74,7 +75,7 @@ const characterSprite = {
     },
 };
 
-const deathSprite = {
+export const deathSprite = {
     up: {
         frames: [
             {
@@ -129,15 +130,27 @@ const deathSprite = {
     }
 };
 
-let isDead = false;
+export let isDead = false;
 let lastTime = 0;
-let player = {
+export let player = {
     x: 32,
     y: 32,
     currentFrame: "down",
     frameIndex: 0,
     frameTimer: 0,
-    speed: 300,
+    speed: 100,
+    weight: 0,
+    timeLeft: 20,
+    timeBought: 0,
+    weightBought: 0
+}
+
+export function toggleDeath() {
+    isDead = !isDead;
+}
+
+export function initPlayer(){
+    player.timeLeft += player.timeBought;
 }
 
 //update character only takes horizontal first.
@@ -145,6 +158,13 @@ function updateCharacter(delta) {
 
     const map = getCurrentMap();
     const tileSize = 16 * scale;
+
+    player.timeLeft -= delta; //countdown;
+
+    if (player.timeLeft <= 0) {
+        toggleDeath();
+        return;
+    }
 
     let dx = 0, dy = 0;
     if (keys.left) {
@@ -169,16 +189,16 @@ function updateCharacter(delta) {
         dy /= Math.SQRT2;
     }
 
-    player.x += dx * delta * player.speed;
-    if (collidesWithWall(map, player.x, player.y, tileSize - 1, tileSize - 1) || collidesWithObject(player.x, player.y, 16 * scale - 1, 16 * scale - 1)) {
-        player.x -= dx * delta * player.speed;
+    const currentSpeed = Math.max(30,player.speed - (player.weight - player.weightBought * 5));
 
+    player.x += dx * delta * currentSpeed;
+    if (collidesWithWall(map, player.x, player.y, tileSize - 1, tileSize - 1) || collidesWithObject(player.x, player.y, 16 * scale - 1, 16 * scale - 1)) {
+        player.x -= dx * delta * currentSpeed;
     }
 
-    player.y += dy * delta * player.speed;
+    player.y += dy * delta * currentSpeed;
     if (collidesWithWall(map, player.x, player.y, tileSize - 1, tileSize - 1) || collidesWithObject(player.x, player.y, 16 * scale - 1, 16 * scale - 1)) {
-        player.y -= dy * delta * player.speed;
-
+        player.y -= dy * delta * currentSpeed;
     }
 
     const playerRow = Math.floor(player.y / tileSize);
@@ -225,7 +245,9 @@ function drawCharacter() {
         frames = characterSprite[player.currentFrame].frames;
     }
 
-    let frame = frames[player.frameIndex]
+    let frame = frames[player.frameIndex];
+
+    // console.log(frame);
 
     ctx.drawImage(
         characterSpriteSheet,
@@ -241,12 +263,17 @@ export function gameLoop(currentTime) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if(isShopVisible){
-        renderShop();
+    if (isDead) {
+        renderDeathScreen(delta);
         requestAnimationFrame(gameLoop);
         return;
     }
 
+    if (isShopVisible) {
+        renderShop();
+        requestAnimationFrame(gameLoop);
+        return;
+    }
 
     drawMap();
     drawObject();

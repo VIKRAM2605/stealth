@@ -1,3 +1,4 @@
+import { player } from "./character.js";
 import { scale } from "./main.js";
 import { currentLevel } from "./map.js";
 import { crateMap, crateSprites } from "./obstacle.js";
@@ -80,6 +81,7 @@ export function collidesWithOrbs(px, py, pw, ph) {
 
         if (overLapX && overLapY) {
             orbsList[currentLevel][i].collected = true; 
+            player.weight +=5;
             return true; 
         }
 

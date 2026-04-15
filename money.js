@@ -13,3 +13,7 @@ export function deductOrbs(n) {
     orbsCollected -= n;
     return true;
 }
+
+export function resetOrbs(){
+    orbsCollected = 0;
+}

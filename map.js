@@ -1,4 +1,6 @@
+import { player } from "./character.js";
 import { ctx, scale, tileset } from "./main.js";
+import { resetUpgrade } from "./shop.js";
 
 const tileSize = 16;
 
@@ -73,8 +75,24 @@ export let currentLevel = 1;
 
 export function setLevel() {
     currentLevel += 1;
+    if(currentLevel > Object.keys(maps).length) currentLevel = 1;
+    player.weight = 0;
+    player.timeLeft = 20 + player.timeBought;
+    player.x = 32;
+    player.y = 32;
     console.log("Next Level", currentLevel);
 };
+
+export function resetMap() {
+    currentLevel = 1;
+    resetUpgrade();
+
+    player.weight = 0;
+    player.timeLeft = 20 + player.timeBought;
+
+    player.x = 32;
+    player.y = 32;
+}
 
 export function getCurrentMap() {
     return maps[currentLevel];
@@ -87,7 +105,7 @@ export function drawMap() {
     for (let row = 0; row < map.length; row++) {
         for (let col = 0; col < map[row].length; col++) {
             const tileId = map[row][col];
-            const tile = tiles[tileId];
+            let tile = tiles[tileId];
 
             if (!tile) tile = { row: 3, col: 3 };
 

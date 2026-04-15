@@ -1,3 +1,4 @@
+import { player } from "./character.js";
 import { computerScreenSheet, computerSheet, ctx, height, orbSheet, width } from "./main.js";
 import { getCurrentOrbsCount } from "./money.js";
 
@@ -14,6 +15,15 @@ export function toggleShowShop() {
     // console.log(isShopVisible);
 }
 
+export function resetUpgrade() {
+    upgradeCost = 8;
+    isShopVisible = false;
+    errorMessage = "";
+    upgradeSelected = "";
+    player.timeBought = 0;
+    player.weightBought = 0;
+}
+
 export function canUpgrade() {
     if (upgradeSelected === "") return true;
     const money = getCurrentOrbsCount();
@@ -24,9 +34,9 @@ export function canUpgrade() {
     else {
         errorMessage = "Insufficient Balance";
 
-        setTimeout(()=>{
+        setTimeout(() => {
             errorMessage = "";
-        },2000);
+        }, 2000);
 
         return false;
     }
@@ -34,6 +44,9 @@ export function canUpgrade() {
 
 export function updateUpgrade() {
     if (upgradeSelected !== "") upgradeCost += 4;
+
+    if (upgradeSelected === "timesurge") player.timeBought += 1;
+    if (upgradeSelected === "strengthsurge") player.weightBought += 5;
 }
 
 export function selectedUpgrade(key) {

@@ -1,7 +1,8 @@
-import { gameLoop } from "./character.js";
+import { gameLoop, initPlayer, isDead, toggleDeath } from "./character.js";
 import { isTutorialActive, nextStep, startTutorial } from "./info.js";
-import { setLevel } from "./map.js";
-import { canUpgrade, isShopVisible, selectedUpgrade, toggleShowShop, updateUpgrade } from "./shop.js";
+import { resetMap, setLevel } from "./map.js";
+import { resetOrbs } from "./money.js";
+import { canUpgrade, isShopVisible, resetUpgrade, selectedUpgrade, toggleShowShop, updateUpgrade } from "./shop.js";
 
 const pixelFont = new FontFace("PixelFont", "url(assets/04B_03__.TTF)");
 pixelFont.load().then(f => document.fonts.add(f));
@@ -48,6 +49,9 @@ computerSheet.src = "assets/computer_screen_large.png";
 export const computerScreenSheet = new Image();
 computerScreenSheet.src = "assets/computer_popup_spritesheet.png";
 
+export const timeBarSheet = new Image();
+timeBarSheet.src = "assets/Health_Bar_Block.png";
+
 let loadedCount = 0;
 const imageCount = 6;
 
@@ -56,6 +60,7 @@ function onImageLoad() {
     if (loadedCount === imageCount) {
         console.log("started")
         //requestAnimationFrame(gameLoop);
+        initPlayer();
         startTutorial();
     }
 };
@@ -167,6 +172,24 @@ document.addEventListener('keyup', (e) => {
             updateUpgrade();
             toggleShowShop();
             setLevel();
+            return;
+    }
+});
+
+document.addEventListener('keyup',(e)=>{
+    e.stopPropagation();
+    e.preventDefault();
+
+    if(!isDead) return;
+
+    const key = e.key.toLowerCase();
+
+    switch(key){
+        case " ":
+            resetMap();
+            resetOrbs();
+            resetUpgrade();
+            toggleDeath();
             return;
     }
 })
