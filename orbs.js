@@ -35,11 +35,31 @@ export const orbsList = {
             row: 5,
             col: 5
         }
+    ],
+    2: [
+        {
+            id: "orb1_lvl1",
+            orbIndex: 0,
+            orbTime: 0,
+            collected: false,
+            row: 2,
+            col: 2
+        },
+        {
+            id: "orb2_lvl2",
+            orbIndex: 0,
+            orbTime: 0,
+            collected: false,
+            row: 10,
+            col: 12
+        }
     ]
 };
 
 export function updateOrbs(delta) {
     for (let i = 0; i < orbsList[currentLevel].length; i++) {
+
+        if (orbsList[currentLevel][i].collected) continue;
 
         orbsList[currentLevel][i].orbTime += delta;
         if (orbsList[currentLevel][i].orbTime >= frameTimer) {

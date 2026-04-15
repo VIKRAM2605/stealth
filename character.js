@@ -1,5 +1,6 @@
+import { collidesWithObject, collidesWithOrbs, collidesWithWall } from "./collision.js";
 import { canvas, characterSpriteSheet, ctx, keys, scale } from "./main.js";
-import { drawMap } from "./map.js";
+import { currentLevel, drawMap, getCurrentMap, setLevel } from "./map.js";
 import { drawObject } from "./obstacle.js";
 import { updateOrbs } from "./orbs.js";
 
@@ -129,7 +130,7 @@ let isDead = false;
 let lastTime = 0;
 let player = {
     x: 32,
-    y: 16,
+    y: 32,
     currentFrame: "down",
     frameIndex: 0,
     frameTimer: 0,
@@ -138,6 +139,10 @@ let player = {
 
 //update character only takes horizontal first.
 function updateCharacter(delta) {
+
+    const map = getCurrentMap();
+    const tileSize = 16 * scale;
+
     let dx = 0, dy = 0;
     if (keys.left) {
         dx = -1;
@@ -156,12 +161,41 @@ function updateCharacter(delta) {
         player.currentFrame = "down";
     }
 
-    if(dx && dy){
-        
+    if (dx && dy) {
+
     }
 
     player.x += dx * delta * player.speed;
+    if (collidesWithWall(map, player.x, player.y, tileSize - 1, tileSize - 1) || collidesWithObject(player.x, player.y, 16 * scale - 1, 16 * scale - 1)) {
+        player.x -= dx * delta * player.speed;
+
+    }
+
     player.y += dy * delta * player.speed;
+    if (collidesWithWall(map, player.x, player.y, tileSize - 1, tileSize - 1) || collidesWithObject(player.x, player.y, 16 * scale - 1, 16 * scale - 1)) {
+        player.y -= dy * delta * player.speed;
+
+    }
+
+    const playerRow = Math.floor(player.y / tileSize);
+    const playerCol = Math.floor(player.x / tileSize);
+
+    const tile = map[playerRow]?.[playerCol] ?? 0;
+
+    // if (tile !== 10 && tile !== 18) {
+    //     player.x -= dx * delta * player.speed;
+    //     player.y -= dy * delta * player.speed;
+    // }
+
+    if (playerRow >= map.length - 2 && (tile === 10 || tile === 18)) {
+        setLevel(currentLevel + 1);
+        player.x = 32;
+        player.y = 32;
+    }
+
+    if (collidesWithOrbs(player.x, player.y, 16 * scale - 1, 16 * scale - 1)) {
+        console.log("orb collected");
+    }
 
     if (dx !== 0 || dy !== 0) {
         player.frameTimer += delta;
@@ -201,10 +235,10 @@ export function gameLoop(currentTime) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    
+
     drawMap();
     drawObject();
-    
+
     updateCharacter(delta);
     updateOrbs(delta);
 

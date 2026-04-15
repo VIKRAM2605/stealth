@@ -3,7 +3,7 @@ import { currentLevel } from "./map.js";
 
 const tileSize = 16;
 
-const crateSprites = {
+export const crateSprites = {
     0: [
         {
             row: 1, col: 1
@@ -61,7 +61,7 @@ const crateSprites = {
     ]
 };
 
-const crateMap = {
+export const crateMap = {
     1: [
         {
             row: 2, col: 2, crate: 0
@@ -86,6 +86,23 @@ const crateMap = {
         },
         {
             row: 6, col: 10, crate: 7
+        }
+    ],
+    2: [
+        {
+            row: 2, col: 2, crate: 0
+        },
+        {
+            row: 4, col: 7, crate: 5
+        },
+        {
+            row: 4, col: 8, crate: 6
+        },
+        {
+            row: 10, col: 10, crate: 7
+        },
+        {
+            row: 13, col: 10, crate: 7
         }
     ]
 
