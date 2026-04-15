@@ -3,7 +3,8 @@ import { isTutorialActive, nextStep, startTutorial } from "./info.js";
 import { resetMap, setLevel } from "./map.js";
 import { resetOrbs } from "./money.js";
 import { canUpgrade, isShopVisible, resetUpgrade, selectedUpgrade, toggleShowShop, updateUpgrade } from "./shop.js";
-
+import './music.js';
+import { resetMapOrbs } from "./orbs.js";
 const pixelFont = new FontFace("PixelFont", "url(assets/04B_03__.TTF)");
 pixelFont.load().then(f => document.fonts.add(f));
 
@@ -188,7 +189,6 @@ document.addEventListener('keyup',(e)=>{
         case " ":
             resetMap();
             resetOrbs();
-            resetUpgrade();
             toggleDeath();
             return;
     }

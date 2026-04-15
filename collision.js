@@ -81,7 +81,7 @@ export function collidesWithOrbs(px, py, pw, ph) {
 
         if (overLapX && overLapY) {
             orbsList[currentLevel][i].collected = true; 
-            player.weight +=5;
+            player.weight +=12.5;
             return true; 
         }
 

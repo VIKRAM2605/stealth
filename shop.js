@@ -4,7 +4,7 @@ import { getCurrentOrbsCount } from "./money.js";
 
 export let isShopVisible = false;
 
-export let upgradeCost = 8;
+export let upgradeCost = 4;
 
 let upgradeSelected = "";
 
@@ -16,7 +16,7 @@ export function toggleShowShop() {
 }
 
 export function resetUpgrade() {
-    upgradeCost = 8;
+    upgradeCost = 4;
     isShopVisible = false;
     errorMessage = "";
     upgradeSelected = "";
@@ -43,10 +43,12 @@ export function canUpgrade() {
 }
 
 export function updateUpgrade() {
-    if (upgradeSelected !== "") upgradeCost += 4;
+    if (upgradeSelected !== "") upgradeCost += 2;
 
     if (upgradeSelected === "timesurge") player.timeBought += 1;
-    if (upgradeSelected === "strengthsurge") player.weightBought += 5;
+    if (upgradeSelected === "strengthsurge") player.weightBought += 1.5;
+
+    upgradeSelected = "";
 }
 
 export function selectedUpgrade(key) {

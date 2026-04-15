@@ -103,10 +103,24 @@ export const crateMap = {
         },
         {
             row: 13, col: 10, crate: 7
+        },
+        {
+            row: 13, col: 3, crate: 0
+        },
+        {
+            row: 6, col: 11, crate: 4
+        },
+        {
+            row: 3, col: 10, crate: 5
+        },
+        {
+            row: 6, col: 4, crate: 7
         }
     ]
 
 };
+
+// i have mistankenly swapped the drawing to col and row in the function so it is what it is now
 
 export function drawObject() {
     const crates = crateMap[currentLevel];

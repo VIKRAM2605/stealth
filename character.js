@@ -189,7 +189,7 @@ function updateCharacter(delta) {
         dy /= Math.SQRT2;
     }
 
-    const currentSpeed = Math.max(30,player.speed - (player.weight - player.weightBought * 5));
+    const currentSpeed = Math.max(30,player.speed - Math.max(0,(player.weight - player.weightBought * 12.5 / 2)));
 
     player.x += dx * delta * currentSpeed;
     if (collidesWithWall(map, player.x, player.y, tileSize - 1, tileSize - 1) || collidesWithObject(player.x, player.y, 16 * scale - 1, 16 * scale - 1)) {
