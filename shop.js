@@ -7,13 +7,33 @@ export let upgradeCost = 8;
 
 let upgradeSelected = "";
 
+let errorMessage = "";
+
 export function toggleShowShop() {
     isShopVisible = !isShopVisible;
     // console.log(isShopVisible);
 }
 
+export function canUpgrade() {
+    if (upgradeSelected === "") return true;
+    const money = getCurrentOrbsCount();
+
+    if (money - upgradeCost >= 0) {
+        return true;
+    }
+    else {
+        errorMessage = "Insufficient Balance";
+
+        setTimeout(()=>{
+            errorMessage = "";
+        },2000);
+
+        return false;
+    }
+}
+
 export function updateUpgrade() {
-    upgradeCost += 4;
+    if (upgradeSelected !== "") upgradeCost += 4;
 }
 
 export function selectedUpgrade(key) {
@@ -106,6 +126,13 @@ export function renderShop() {
     // ctx.fillText(`${upgradeCost}`, computerX + 192 + 192 * 0.7 + 4, 100 + 64 + computerY);
 
     drawOrbCost(computerX + 192 + 192 * 0.7, 95 + 64 + computerY, upgradeCost, color);
+
+    if (errorMessage !== "") {
+        ctx.fillStyle = "#F44336";
+        ctx.font = "14px PixelFont";
+        ctx.textAlign = "center";
+        ctx.fillText(errorMessage, computerWidth / 2 + computerX, computerY + computerHeight - 160);
+    }
 
     ctx.fillStyle = "#aab4ff";
     ctx.font = "12px PixelFont";

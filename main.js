@@ -1,6 +1,7 @@
 import { gameLoop } from "./character.js";
 import { isTutorialActive, nextStep, startTutorial } from "./info.js";
-import { isShopVisible, selectedUpgrade } from "./shop.js";
+import { setLevel } from "./map.js";
+import { canUpgrade, isShopVisible, selectedUpgrade, toggleShowShop, updateUpgrade } from "./shop.js";
 
 const pixelFont = new FontFace("PixelFont", "url(assets/04B_03__.TTF)");
 pixelFont.load().then(f => document.fonts.add(f));
@@ -159,6 +160,14 @@ document.addEventListener('keyup', (e) => {
             return;
         case 'escape':
             selectedUpgrade('esc');
+            return;
+        case " ":
+            const update = canUpgrade();
+            if(!update) return;
+            updateUpgrade();
+            toggleShowShop();
+            setLevel();
+            return;
     }
 })
 

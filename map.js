@@ -71,9 +71,9 @@ const maps = {
 
 export let currentLevel = 1;
 
-export function setLevel(n) {
-    // currentLevel = n;
-    console.log("Next Level", n);
+export function setLevel() {
+    currentLevel += 1;
+    console.log("Next Level", currentLevel);
 };
 
 export function getCurrentMap() {
