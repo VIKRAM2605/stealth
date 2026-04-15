@@ -1,8 +1,9 @@
 import { gameLoop } from "./character.js";
 import { isTutorialActive, nextStep, startTutorial } from "./info.js";
+import { isShopVisible, selectedUpgrade } from "./shop.js";
 
-const pixelFont = new FontFace("PixelFont","url(assets/04B_03__.TTF)");
-pixelFont.load().then(f =>document.fonts.add(f));
+const pixelFont = new FontFace("PixelFont", "url(assets/04B_03__.TTF)");
+pixelFont.load().then(f => document.fonts.add(f));
 
 export const canvas = document.getElementById("game-canvas");
 export const ctx = canvas.getContext('2d');
@@ -71,7 +72,7 @@ document.addEventListener('keydown', (e) => {
     const key = e.key.toLowerCase();
     switch (key) {
         case " ":
-            if(isTutorialActive) nextStep();
+            if (isTutorialActive) nextStep();
             return;
         case 'w':
             keys.up = true;
@@ -83,6 +84,18 @@ document.addEventListener('keydown', (e) => {
             keys.left = true;
             return;
         case 'd':
+            keys.right = true;
+            return;
+        case 'arrowup':
+            keys.up = true;
+            return;
+        case 'arrowdown':
+            keys.down = true;
+            return;
+        case 'arrowleft':
+            keys.left = true;
+            return;
+        case 'arrowright':
             keys.right = true;
             return;
     }
@@ -106,14 +119,47 @@ document.addEventListener('keyup', (e) => {
         case 'd':
             keys.right = false;
             return;
+        case 'arrowup':
+            keys.up = false;
+            return;
+        case 'arrowdown':
+            keys.down = false;
+            return;
+        case 'arrowleft':
+            keys.left = false;
+            return;
+        case 'arrowright':
+            keys.right = false;
+            return;
     }
 });
 
-document.addEventListener("click",(e)=>{
+document.addEventListener("click", (e) => {
     e.stopPropagation();
     e.preventDefault();
 
     nextStep();
+});
+
+document.addEventListener('keyup', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const key = e.key.toLowerCase();
+    // console.log(key);
+
+    if (!isShopVisible) return;
+
+    switch (key) {
+        case 'e':
+            selectedUpgrade('e');
+            return;
+        case 'f':
+            selectedUpgrade('f');
+            return;
+        case 'escape':
+            selectedUpgrade('esc');
+    }
 })
 
 characterSpriteSheet.onload = onImageLoad;
@@ -122,5 +168,3 @@ orbSheet.onload = onImageLoad;
 crateSheet.onload = onImageLoad;
 computerSheet.onload = onImageLoad;
 computerScreenSheet.onload = onImageLoad;
-
-console.log(canvas, ctx);

@@ -2,7 +2,7 @@ import { canvas, ctx, orbSheet, width } from "./main.js";
 import { getCurrentOrbsCount } from "./money.js";
 
 export function drawUi() {
-    drawOrbsTotal();
+    //drawOrbsTotal();
 }
 
 export function drawOrbsTotal() {

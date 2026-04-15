@@ -25,6 +25,12 @@ const steps = [
         title: "Upgrades Help You Last Longer",
         para: "Buy Them Between Levels!",
         info: "Spend Wisely!!!"
+    },
+    {
+        main: "ZOOM",
+        title: "Make Your Game Bigger With Zoom.",
+        para: "Zooming In Increases The Overall Size Of The Game For Better Visibility And Experience. Use CTRL + Scroll Wheel To Zoom In Or Just Using Browser Zoom In/Out Option.",
+        info: "Adjust It Based On Your Preference."
     }
 ];
 
@@ -106,7 +112,7 @@ export function drawTutorial(step) {
     if (step.para) {
         ctx.fillStyle = "#9aa0c0";
         ctx.font = "14px PixelFont";
-        y = wrapText(step.para, cx, y, screenW - 10, 11) + 11;
+        y = wrapText(step.para, cx, y, screenW - 30, 11) + 11;
     }
 
     ctx.fillStyle = "#c8a96e";

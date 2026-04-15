@@ -1,12 +1,38 @@
-import { computerScreenSheet, computerSheet, ctx, height, width } from "./main.js";
+import { computerScreenSheet, computerSheet, ctx, height, orbSheet, width } from "./main.js";
+import { getCurrentOrbsCount } from "./money.js";
 
 export let isShopVisible = false;
 
+export let upgradeCost = 8;
+
+let upgradeSelected = "";
+
 export function toggleShowShop() {
     isShopVisible = !isShopVisible;
+    // console.log(isShopVisible);
+}
+
+export function updateUpgrade() {
+    upgradeCost += 4;
+}
+
+export function selectedUpgrade(key) {
+    if (key === "e") {
+        upgradeSelected = "timesurge";
+    }
+    else if (key === 'f') {
+        upgradeSelected = "strengthsurge";
+    }
+    else if (key === "esc") {
+        upgradeSelected = "";
+    }
+    // console.log(upgradeSelected);
 }
 
 export function renderShop() {
+    const money = getCurrentOrbsCount();
+
+    const color = money >= upgradeCost ? "#4CAF50" : "#F44336"
 
     const computerWidth = 240 * 2;
     const computerHeight = 192 * 2;
@@ -19,15 +45,92 @@ export function renderShop() {
         computerX, computerY, computerWidth, computerHeight
     );
 
+    const timeSelected = upgradeSelected === "timesurge" ? 0 : 192;
+
     ctx.drawImage(
         computerScreenSheet,        //for time
-        192, 64, 192, 64,
-        0, 0, 192, 64
+        timeSelected, 0, 192, 64,
+        computerX + 80, computerY + 70, 192 * 0.7, 64
     );
+
+    ctx.fillStyle = "#00C853";
+    ctx.font = "12px PixelFont";
+    ctx.textAlign = "center";
+    ctx.fillText("Time Surge", computerX + 192 * 0.7 + 14, 40 + 64 + computerY);
+
+    ctx.fillStyle = "#dde3ff";
+    ctx.font = "14px PixelFont";
+    ctx.textAlign = "center"
+    ctx.fillText("Press 'E'", computerX + 192 * 0.7 + 14, 85 + 64 + computerY);
+
+    // ctx.drawImage(
+    //     orbSheet,
+    //     0, 0, 16, 16,
+    //     computerX + 192 * 0.7, 88 + 64 + computerY, 16, 16
+    // );
+
+    // ctx.fillStyle = color;
+    // ctx.font = "14px PixelFont";
+    // ctx.textAlign = "center";
+    // ctx.fillText(`${upgradeCost}`, computerX + 192 * 0.7 + 14, 100 + 64 + computerY);
+
+    drawOrbCost(computerX + 192 * 0.7 + 8, 95 + 64 + computerY, upgradeCost, color);
+
+    const strengthSelected = upgradeSelected === "strengthsurge" ? 0 : 192;
 
     ctx.drawImage(
         computerScreenSheet,        //for weight carrage
-        192, 64, 192, 64,
-        100, 100, 192, 64
-    )
+        strengthSelected, 0, 192, 64,
+        computerX + 192 + 70, computerY + 70, 192 * 0.7, 64
+    );
+
+    ctx.fillStyle = "#00C853";
+    ctx.font = "12px PixelFont";
+    ctx.textAlign = "center";
+    ctx.fillText("Strength Surge", computerX + 192 + 192 * 0.7 + 4, 40 + 64 + computerY);
+
+    ctx.fillStyle = "#dde3ff";
+    ctx.font = "14px PixelFont";
+    ctx.textAlign = "center"
+    ctx.fillText("Press 'F'", computerX + 192 + 192 * 0.7 + 4, 85 + 64 + computerY);
+
+    // ctx.drawImage(
+    //     orbSheet,
+    //     0, 0, 16, 16,
+    //     computerX + 192 + 192 * 0.7 + 4, 88 + 64 + computerY, 16, 16
+    // );
+
+    // ctx.fillStyle = color;
+    // ctx.font = "14px PixelFont";
+    // ctx.textAlign = "center";
+    // ctx.fillText(`${upgradeCost}`, computerX + 192 + 192 * 0.7 + 4, 100 + 64 + computerY);
+
+    drawOrbCost(computerX + 192 + 192 * 0.7, 95 + 64 + computerY, upgradeCost, color);
+
+    ctx.fillStyle = "#aab4ff";
+    ctx.font = "12px PixelFont";
+    ctx.textAlign = "center"
+    ctx.fillText("Select An Upgrade And Press 'Space' To Continue", computerWidth / 2 + computerX, computerY + computerHeight - 100);
+
+    ctx.fillStyle = "#6b728f";
+    ctx.font = "10px PixelFont";
+    ctx.textAlign = "center";
+    ctx.fillText("Press 'ESC' To Deselect The Selected Upgrade", computerWidth / 2 + computerX, computerY + computerHeight - 80);
+}
+
+function drawOrbCost(centerX, y, cost, color) {
+    const gap = 4;
+    const orbSize = 16;
+    const orbX = centerX - orbSize - gap;
+
+    ctx.drawImage(
+        orbSheet,
+        0, 0, orbSize, orbSize,
+        orbX, y, orbSize, orbSize
+    );
+
+    ctx.fillStyle = color;
+    ctx.font = "14px PixelFont";
+    ctx.textAlign = "left";
+    ctx.fillText(`${cost}`, centerX, y + 12)
 }

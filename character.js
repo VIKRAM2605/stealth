@@ -137,7 +137,7 @@ let player = {
     currentFrame: "down",
     frameIndex: 0,
     frameTimer: 0,
-    speed: 50,
+    speed: 300,
 }
 
 //update character only takes horizontal first.
