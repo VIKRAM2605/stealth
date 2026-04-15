@@ -74,8 +74,8 @@ export function wrapText(text, x, y, maxWidth, lineHeight) {
 
 export function drawTutorial(step) {
 
-    const computerWidth = 240 * 1.5;
-    const computerHeight = 192 * 1.5;
+    const computerWidth = 240 * 2;
+    const computerHeight = 192 * 2;
     const computerX = (width / 2) - (computerWidth) / 2;
     const computerY = (height / 2) - (computerHeight) / 2;
 
@@ -87,7 +87,7 @@ export function drawTutorial(step) {
 
     const screenX = computerX + 45;
     const screenY = computerY + 35;
-    const screenW = computerWidth - 90;
+    const screenW = computerWidth - 80;
     const screenH = computerHeight - 80;
     const cx = screenX + screenW / 2;
 
@@ -111,9 +111,9 @@ export function drawTutorial(step) {
 
     ctx.fillStyle = "#c8a96e";
     ctx.font = "12px PixelFont";
-    ctx.fillText(step.info, cx, screenY + screenH - 20);
+    ctx.fillText(step.info, cx, screenY + screenH - 40);
 
     ctx.fillStyle = "#6b728f";
     ctx.font = "10px PixelFont";
-    ctx.fillText("[PRESS SPACE/CLICK TO CONTINUE]", cx, screenY + screenH - 4);
+    ctx.fillText("[PRESS SPACE/CLICK TO CONTINUE]", cx, screenY + screenH - 20);
 }

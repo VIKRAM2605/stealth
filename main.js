@@ -43,8 +43,11 @@ crateSheet.src = "assets/crates_spritesheet.png";
 export const computerSheet = new Image();
 computerSheet.src = "assets/computer_screen_large.png";
 
+export const computerScreenSheet = new Image();
+computerScreenSheet.src = "assets/computer_popup_spritesheet.png";
+
 let loadedCount = 0;
-const imageCount = 5;
+const imageCount = 6;
 
 function onImageLoad() {
     loadedCount++;
@@ -118,5 +121,6 @@ tileset.onload = onImageLoad;
 orbSheet.onload = onImageLoad;
 crateSheet.onload = onImageLoad;
 computerSheet.onload = onImageLoad;
+computerScreenSheet.onload = onImageLoad;
 
 console.log(canvas, ctx);

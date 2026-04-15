@@ -1,8 +1,11 @@
 import { collidesWithObject, collidesWithOrbs, collidesWithWall } from "./collision.js";
 import { canvas, characterSpriteSheet, ctx, keys, scale } from "./main.js";
 import { currentLevel, drawMap, getCurrentMap, setLevel } from "./map.js";
+import { updateTotal } from "./money.js";
 import { drawObject } from "./obstacle.js";
 import { updateOrbs } from "./orbs.js";
+import { isShopVisible, renderShop, toggleShowShop } from "./shop.js";
+import { drawUi } from "./ui.js";
 
 const characterSprite = {
     up: {
@@ -162,7 +165,8 @@ function updateCharacter(delta) {
     }
 
     if (dx && dy) {
-
+        dx /= Math.SQRT2;
+        dy /= Math.SQRT2;
     }
 
     player.x += dx * delta * player.speed;
@@ -188,13 +192,15 @@ function updateCharacter(delta) {
     // }
 
     if (playerRow >= map.length - 2 && (tile === 10 || tile === 18)) {
-        setLevel(currentLevel + 1);
-        player.x = 32;
-        player.y = 32;
+        // setLevel(currentLevel + 1);
+        // player.x = 32;
+        // player.y = 32;
+        toggleShowShop();
     }
 
     if (collidesWithOrbs(player.x, player.y, 16 * scale - 1, 16 * scale - 1)) {
         console.log("orb collected");
+        updateTotal();
     }
 
     if (dx !== 0 || dy !== 0) {
@@ -235,9 +241,16 @@ export function gameLoop(currentTime) {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    if(isShopVisible){
+        renderShop();
+        requestAnimationFrame(gameLoop);
+        return;
+    }
+
 
     drawMap();
     drawObject();
+    drawUi();
 
     updateCharacter(delta);
     updateOrbs(delta);
