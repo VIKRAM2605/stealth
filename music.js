@@ -2,7 +2,7 @@ const bgMusic = new Audio("assets/bg.wav");
 
 bgMusic.loop = true;
 
-bgMusic.volume = 0.1;
+bgMusic.volume = 0.3;
 bgMusic.preload = "auto";
 
 let isMusicPlaying = false;

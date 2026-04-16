@@ -1,8 +1,10 @@
 # GREEDY
-A fun . fast-paced 2D arcade ga,e nuilt entirely from scratch using HTML5 CANVAS and vanilla Javascript. The goal is simple; navigate through the maze, collect orbs and get rich, and reach the end of the level. But there's a catch-every orb you cpollect adds a physical wight to your character, slowing you down while a time constantly ticks away. It's a balancing act between greed and survival!
+It is a top-down 2d game where you must collect orbs. Each orbs you collect adds weight to the player. So don't be greddy as the more you collect the more will the player get slowed down. So mind the weight and time. The time is ticking each level grants you a 20 seconds to pass the level + upgrades time if you bought each time upgrade adds 1 seconds on top of base 20 seconds. Strength upgrade will grant you a reduction of half the weigth of a orb. You can stack them. If you bought 2 you can carry a orb without getting slowed.
+
 *(Note: Use the arrow keys to move your character around the map or WASD!)*
 *(Note: keep an eye on the top timer bar! If time runs out, your character dies and its game over.)*
 *(Note: Dont get too greedy! The heavier you get, the slower you move. Make sure you actually reach the exit!)*
+
 ## Features
 
 * **Dynamic Weight Sytem:** This is the core mechanic. Every orb you grab increases your score, but also makes your character heavier and slower.You have to decide if the extra orb is worth the speed penalty!
