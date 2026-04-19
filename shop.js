@@ -1,5 +1,6 @@
 import { player } from "./character.js";
-import { computerScreenSheet, computerSheet, ctx, height, orbSheet, width } from "./main.js";
+import { wrapText } from "./info.js";
+import { computerScreenSheet, computerSheet, ctx, height, orbSheet, scale, width } from "./main.js";
 import { getCurrentOrbsCount } from "./money.js";
 
 export let isShopVisible = false;
@@ -12,7 +13,6 @@ let errorMessage = "";
 
 export function toggleShowShop() {
     isShopVisible = !isShopVisible;
-    // console.log(isShopVisible);
 }
 
 export function resetUpgrade() {
@@ -61,7 +61,6 @@ export function selectedUpgrade(key) {
     else if (key === "esc") {
         upgradeSelected = "";
     }
-    // console.log(upgradeSelected);
 }
 
 export function renderShop() {
@@ -69,8 +68,8 @@ export function renderShop() {
 
     const color = money >= upgradeCost ? "#4CAF50" : "#F44336"
 
-    const computerWidth = 240 * 2;
-    const computerHeight = 192 * 2;
+    const computerWidth = 240 * scale;
+    const computerHeight = 192 * scale;
     const computerX = (width / 2) - (computerWidth) / 2;
     const computerY = (height / 2) - (computerHeight) / 2;
 
@@ -85,94 +84,83 @@ export function renderShop() {
     ctx.drawImage(
         computerScreenSheet,        //for time
         timeSelected, 0, 192, 64,
-        computerX + 80, computerY + 70, 192 * 0.7, 64
+        computerX + 130, computerY + 100, 192 * 1, 64 * 1.8
     );
 
     ctx.fillStyle = "#00C853";
+    ctx.font = "18px PixelFont";
+    ctx.fillText("Time Surge", computerX + 192 + 10, 65 + 64 + computerY);
+
     ctx.font = "12px PixelFont";
-    ctx.textAlign = "center";
-    ctx.fillText("Time Surge", computerX + 192 * 0.7 + 14, 40 + 64 + computerY);
+    ctx.textAlign = "left";
+    wrapText("Increase Total Time By 1 Second.", computerX + 153, 100 + 64 + computerY, 192 - 20, 11);
 
     ctx.fillStyle = "#dde3ff";
-    ctx.font = "14px PixelFont";
-    ctx.textAlign = "center"
-    ctx.fillText("Press 'E'", computerX + 192 * 0.7 + 14, 85 + 64 + computerY);
+    ctx.font = "18px PixelFont";
+    ctx.fillText("Press 'E'", computerX + 182, 20 + 64 * 1.8 * 2 + computerY);
 
-    // ctx.drawImage(
-    //     orbSheet,
-    //     0, 0, 16, 16,
-    //     computerX + 192 * 0.7, 88 + 64 + computerY, 16, 16
-    // );
-
-    // ctx.fillStyle = color;
-    // ctx.font = "14px PixelFont";
-    // ctx.textAlign = "center";
-    // ctx.fillText(`${upgradeCost}`, computerX + 192 * 0.7 + 14, 100 + 64 + computerY);
-
-    drawOrbCost(computerX + 192 * 0.7 + 8, 95 + 64 + computerY, upgradeCost, color);
+    drawOrbCost(computerX + 220, 60 + 64 * 1.8 * 2 + computerY, upgradeCost, color);
 
     const strengthSelected = upgradeSelected === "strengthsurge" ? 0 : 192;
 
     ctx.drawImage(
         computerScreenSheet,        //for weight carrage
         strengthSelected, 0, 192, 64,
-        computerX + 192 + 70, computerY + 70, 192 * 0.7, 64
+        computerX + 192 + 200, computerY + 100, 192 * 1, 64 * 1.8
     );
 
     ctx.fillStyle = "#00C853";
-    ctx.font = "12px PixelFont";
+    ctx.font = "18px PixelFont";
     ctx.textAlign = "center";
-    ctx.fillText("Strength Surge", computerX + 192 + 192 * 0.7 + 4, 40 + 64 + computerY);
+    ctx.fillText("Strength Surge", computerX + 192 + 192 + 103, 65 + 64 + computerY);
+
+    ctx.font = "12px PixelFont";
+    ctx.textAlign = "left";
+    wrapText("Halve One Orb's weight(Stacks)", computerX + 192 + 192 + 30, 100 + 64 + computerY, 192 - 20, 11);
 
     ctx.fillStyle = "#dde3ff";
-    ctx.font = "14px PixelFont";
-    ctx.textAlign = "center"
-    ctx.fillText("Press 'F'", computerX + 192 + 192 * 0.7 + 4, 85 + 64 + computerY);
+    ctx.font = "18px PixelFont";
+    ctx.fillText("Press 'F'", computerX + 192 + 192 + 60, 20 + 64 * 1.8 * 2 + computerY);
 
-    // ctx.drawImage(
-    //     orbSheet,
-    //     0, 0, 16, 16,
-    //     computerX + 192 + 192 * 0.7 + 4, 88 + 64 + computerY, 16, 16
-    // );
-
-    // ctx.fillStyle = color;
-    // ctx.font = "14px PixelFont";
-    // ctx.textAlign = "center";
-    // ctx.fillText(`${upgradeCost}`, computerX + 192 + 192 * 0.7 + 4, 100 + 64 + computerY);
-
-    drawOrbCost(computerX + 192 + 192 * 0.7, 95 + 64 + computerY, upgradeCost, color);
+    drawOrbCost(computerX + 192 + 192 + 100, 60 + 64 * 1.8 * 2 + computerY, upgradeCost, color);
 
     if (errorMessage !== "") {
         ctx.fillStyle = "#F44336";
-        ctx.font = "14px PixelFont";
+        ctx.font = "22px PixelFont";
         ctx.textAlign = "center";
-        ctx.fillText(errorMessage, computerWidth / 2 + computerX, computerY + computerHeight - 160);
+        ctx.fillText(errorMessage, computerWidth / 2 + computerX, computerY + computerHeight - 220);
     }
 
     ctx.fillStyle = "#aab4ff";
-    ctx.font = "12px PixelFont";
+    ctx.font = "14px PixelFont";
     ctx.textAlign = "center"
-    ctx.fillText("Select An Upgrade And Press 'Space' To Continue", computerWidth / 2 + computerX, computerY + computerHeight - 100);
+    ctx.fillText("Select An Upgrade And Press 'Space' To Continue", computerWidth / 2 + computerX, computerY + computerHeight - 120);
 
     ctx.fillStyle = "#6b728f";
-    ctx.font = "10px PixelFont";
+    ctx.font = "12px PixelFont";
     ctx.textAlign = "center";
-    ctx.fillText("Press 'ESC' To Deselect The Selected Upgrade", computerWidth / 2 + computerX, computerY + computerHeight - 80);
+    ctx.fillText("Press 'ESC' To Deselect The Selected Upgrade", computerWidth / 2 + computerX, computerY + computerHeight - 100);
 }
 
 function drawOrbCost(centerX, y, cost, color) {
     const gap = 4;
     const orbSize = 16;
-    const orbX = centerX - orbSize - gap;
+    const orbDiameter = orbSize * 2;
+
+    ctx.font = "22px PixelFont";
+    const textWidth = ctx.measureText(`${cost}`).width;
+
+    const totalWidth = orbDiameter + gap + textWidth;
+    const startX = centerX - totalWidth / 2;
 
     ctx.drawImage(
         orbSheet,
         0, 0, orbSize, orbSize,
-        orbX, y, orbSize, orbSize
+        startX, y - orbSize, orbDiameter, orbDiameter
     );
 
     ctx.fillStyle = color;
-    ctx.font = "14px PixelFont";
     ctx.textAlign = "left";
-    ctx.fillText(`${cost}`, centerX, y + 12)
+    ctx.textBaseline = "middle";
+    ctx.fillText(`${cost}`, startX + orbDiameter + gap, y)
 }

@@ -26,12 +26,12 @@ const steps = [
         para: "Buy Them Between Levels!",
         info: "Spend Wisely!!!"
     },
-    {
-        main: "ZOOM",
-        title: "Make Your Game Bigger With Zoom.",
-        para: "Zooming In Increases The Overall Size Of The Game For Better Visibility And Experience. Use CTRL + Scroll Wheel To Zoom In Or Just Using Browser Zoom In/Out Option.",
-        info: "Adjust It Based On Your Preference."
-    }
+    // {
+    //     main: "ZOOM",
+    //     title: "Make Your Game Bigger With Zoom.",
+    //     para: "Zooming In Increases The Overall Size Of The Game For Better Visibility And Experience. Use CTRL + Scroll Wheel To Zoom In Or Just Using Browser Zoom In/Out Option.",
+    //     info: "Adjust It Based On Your Preference."
+    // }
 ];
 
 let currentStep = 0;
@@ -80,8 +80,8 @@ export function wrapText(text, x, y, maxWidth, lineHeight) {
 
 export function drawTutorial(step) {
 
-    const computerWidth = 240 * 2;
-    const computerHeight = 192 * 2;
+    const computerWidth = 240 * scale;
+    const computerHeight = 192 * scale;
     const computerX = (width / 2) - (computerWidth) / 2;
     const computerY = (height / 2) - (computerHeight) / 2;
 
@@ -92,7 +92,7 @@ export function drawTutorial(step) {
     );
 
     const screenX = computerX + 45;
-    const screenY = computerY + 35;
+    const screenY = computerY + 80;
     const screenW = computerWidth - 80;
     const screenH = computerHeight - 80;
     const cx = screenX + screenW / 2;
@@ -101,25 +101,25 @@ export function drawTutorial(step) {
     let y = screenY + 50;
 
     ctx.fillStyle = "#c8a96e";
-    ctx.font = "35px PixelFont";
+    ctx.font = "60px PixelFont";
     ctx.fillText(step.main, cx, y);
     y += 40;
 
     ctx.fillStyle = "#dde3ff";
-    ctx.font = "18px PixelFont";
-    y = wrapText(step.title, cx, y, screenW - 10, 12) + 25;
+    ctx.font = "25px PixelFont";
+    y = wrapText(step.title, cx, y, screenW - 10, 12) + 45;
 
     if (step.para) {
         ctx.fillStyle = "#9aa0c0";
-        ctx.font = "14px PixelFont";
+        ctx.font = "20px PixelFont";
         y = wrapText(step.para, cx, y, screenW - 30, 11) + 11;
     }
 
     ctx.fillStyle = "#c8a96e";
-    ctx.font = "12px PixelFont";
-    ctx.fillText(step.info, cx, screenY + screenH - 40);
+    ctx.font = "16px PixelFont";
+    ctx.fillText(step.info, cx, screenY + screenH - 110);
 
     ctx.fillStyle = "#6b728f";
-    ctx.font = "10px PixelFont";
-    ctx.fillText("[PRESS SPACE/CLICK TO CONTINUE]", cx, screenY + screenH - 20);
+    ctx.font = "18px PixelFont";
+    ctx.fillText("[PRESS SPACE/CLICK TO CONTINUE]", cx, screenY + screenH - 90);
 }

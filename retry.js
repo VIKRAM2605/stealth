@@ -1,5 +1,5 @@
 import { deathSprite } from "./character.js";
-import { canvas, characterSpriteSheet, computerSheet, ctx, height, width } from "./main.js";
+import { canvas, characterSpriteSheet, computerSheet, ctx, height, scale, width } from "./main.js";
 
 let counter = 0;
 const frameTimer = 0.15;
@@ -9,8 +9,8 @@ let timePassed = 0;
 // }
 
 export function renderDeathScreen(delta) {
-    const computerWidth = 240 * 2;
-    const computerHeight = 192 * 2;
+    const computerWidth = 240 * scale;
+    const computerHeight = 192 * scale;
     const computerX = (width / 2) - (computerWidth / 2);
     const computerY = (height / 2) - (computerHeight / 2);
 
@@ -21,9 +21,9 @@ export function renderDeathScreen(delta) {
     );
 
     ctx.fillStyle = "#F44336";
-    ctx.font = "40px PixelFont";
+    ctx.font = "80px PixelFont";
     ctx.textAlign = "center";
-    ctx.fillText("GAME OVER!", computerX + computerWidth / 2, computerY + 170);
+    ctx.fillText("GAME OVER!", computerX + computerWidth / 2, computerY + 250);
 
     const spriteAnim = deathSprite["down"]["frames"];
 
@@ -40,13 +40,13 @@ export function renderDeathScreen(delta) {
     const sprite = spriteAnim[counter];
 
     ctx.drawImage(
-        characterSpriteSheet,
+        characterSpriteSheet,   
         (sprite.col - 1) * 16, (sprite.row - 1) * 16, 16, 16,
-        (computerX + computerWidth / 2) - (16), (computerY + computerHeight / 2) - (16), 32, 32
+        (computerX + computerWidth / 2) - (16 * scale) / 2, (computerY + computerHeight / 2) - (16 * scale) / 2, 16 * scale, 16 * scale
     );
 
     ctx.fillStyle = "#6b728f";
-    ctx.font = "10px PixelFont";
+    ctx.font = "25px PixelFont";
     ctx.textAlign = "center";
-    ctx.fillText("Click 'Space' To 'Retry'", computerX + computerWidth / 2, computerY + computerHeight - 80);
+    ctx.fillText("Click 'Space' To 'Retry'", computerX + computerWidth / 2, computerY + computerHeight - 120);
 }

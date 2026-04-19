@@ -79,7 +79,7 @@ export function setLevel() {
 
     player.weight = 0;
     player.timeLeft = 20 + player.timeBought;
-    player.x = 32;
+    player.x = 52;
     player.y = 32;
     console.log("Next Level", currentLevel);
 };
@@ -92,7 +92,7 @@ export function resetMap() {
     player.weight = 0;
     player.timeLeft = 20 + player.timeBought;
 
-    player.x = 32;
+    player.x = 52;
     player.y = 32;
 }
 
@@ -103,6 +103,9 @@ export function getCurrentMap() {
 export function drawMap() {
     const map = getCurrentMap();
     const size = tileSize * scale;
+
+    // const offsetX;
+    // const offsety;
 
     for (let row = 0; row < map.length; row++) {
         for (let col = 0; col < map[row].length; col++) {

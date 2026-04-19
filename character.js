@@ -133,12 +133,12 @@ export const deathSprite = {
 export let isDead = false;
 let lastTime = 0;
 export let player = {
-    x: 32,
+    x: 52,
     y: 32,
     currentFrame: "down",
     frameIndex: 0,
     frameTimer: 0,
-    speed: 100,
+    speed: 400,
     weight: 0,
     timeLeft: 20,
     timeBought: 0,

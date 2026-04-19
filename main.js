@@ -11,12 +11,28 @@ pixelFont.load().then(f => document.fonts.add(f));
 export const canvas = document.getElementById("game-canvas");
 export const ctx = canvas.getContext('2d');
 
-export const scale = 2;
-export const width = 512;
-export const height = 512;
+export let scale;
+export let width;
+export let height;
+const tileSize = 16;
+const rows = 16;
+const cols = 16;
 
 function resizeCanvas() {
+
+    // const availableWidth = window.innerWidth;
+    // const availableHeight = window.innerHeight;
+
+    scale = Math.floor(Math.min(window.innerWidth , window.innerHeight) / (tileSize * cols))
+
     const dpr = window.devicePixelRatio || 1;
+
+    // width = Math.floor(availableWidth / scale);
+    // height = Math.floor(availableHeight / scale);
+
+    width = cols * scale * tileSize;
+    height = rows * scale * tileSize;
+
     canvas.width = width * dpr;
     canvas.height = height * dpr;
 
@@ -169,7 +185,7 @@ document.addEventListener('keyup', (e) => {
             return;
         case " ":
             const update = canUpgrade();
-            if(!update) return;
+            if (!update) return;
             updateUpgrade();
             toggleShowShop();
             setLevel();
@@ -177,15 +193,15 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-document.addEventListener('keyup',(e)=>{
+document.addEventListener('keyup', (e) => {
     e.stopPropagation();
     e.preventDefault();
 
-    if(!isDead) return;
+    if (!isDead) return;
 
     const key = e.key.toLowerCase();
 
-    switch(key){
+    switch (key) {
         case " ":
             resetMap();
             resetOrbs();
