@@ -72,8 +72,11 @@ timeBarSheet.src = "assets/Health_Bar_Block.png";
 export const extraSheet = new Image();
 extraSheet.src = "assets/doodads_spritesheet.png";
 
+export const portalSheet = new Image();
+portalSheet.src = "assets/portal_spritesheet.png";
+
 let loadedCount = 0;
-const imageCount = 7;
+const imageCount = 8;
 
 function onImageLoad() {
     loadedCount++;
@@ -220,3 +223,4 @@ crateSheet.onload = onImageLoad;
 computerSheet.onload = onImageLoad;
 computerScreenSheet.onload = onImageLoad;
 extraSheet.onload = onImageLoad;
+portalSheet.onload = onImageLoad;

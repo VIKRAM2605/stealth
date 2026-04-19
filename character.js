@@ -1,4 +1,4 @@
-import { collidesWithObject, collidesWithOrbs, collidesWithWall } from "./collision.js";
+import { collidesWithObject, collidesWithOrbs, collidesWithWall, collisionWithPortal } from "./collision.js";
 import { canvas, characterSpriteSheet, ctx, keys, scale } from "./main.js";
 import { currentLevel, drawMap, getCurrentMap, setLevel } from "./map.js";
 import { updateTotal } from "./money.js";
@@ -138,7 +138,7 @@ export let player = {
     currentFrame: "down",
     frameIndex: 0,
     frameTimer: 0,
-    speed: 400,
+    speed: 100,
     weight: 0,
     timeLeft: 20,
     timeBought: 0,
@@ -149,7 +149,7 @@ export function toggleDeath() {
     isDead = !isDead;
 }
 
-export function initPlayer(){
+export function initPlayer() {
     player.timeLeft += player.timeBought;
 }
 
@@ -189,7 +189,18 @@ function updateCharacter(delta) {
         dy /= Math.SQRT2;
     }
 
-    const currentSpeed = Math.max(30,player.speed - Math.max(0,(player.weight - player.weightBought * 12.5 / 2)));
+    const currentSpeed = Math.max(30, player.speed - Math.max(0, (player.weight - player.weightBought * 12.5 / 2)));
+
+    const portalCollision = collisionWithPortal(player.x, player.y, 16 * scale - 1, 16 * scale - 1, delta);
+    if (portalCollision) {
+        console.log(portalCollision);
+
+        const offsetY = tileSize * 0.3;
+
+        player.x = portalCollision.col * tileSize;
+        player.y = portalCollision.row * tileSize - offsetY;
+        return;
+    }
 
     player.x += dx * delta * currentSpeed;
     if (collidesWithWall(map, player.x, player.y, tileSize - 1, tileSize - 1) || collidesWithObject(player.x, player.y, 16 * scale - 1, 16 * scale - 1)) {

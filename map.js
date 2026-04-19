@@ -2,6 +2,7 @@ import { player } from "./character.js";
 import { ctx, scale, tileset } from "./main.js";
 import { drawWarningTape } from "./mapEndMarker.js";
 import { resetMapOrbs } from "./orbs.js";
+import { drawPortal } from "./portal.js";
 import { resetUpgrade } from "./shop.js";
 
 const tileSize = 16;
@@ -124,4 +125,5 @@ export function drawMap() {
     }
 
     drawWarningTape();
+    drawPortal();
 };

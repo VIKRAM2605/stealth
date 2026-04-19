@@ -3,6 +3,7 @@ import { scale } from "./main.js";
 import { currentLevel } from "./map.js";
 import { crateMap, crateSprites } from "./obstacle.js";
 import { orbsList } from "./orbs.js";
+import { portalLevelMap } from "./portal.js";
 
 // const tile = 16;
 
@@ -80,12 +81,61 @@ export function collidesWithOrbs(px, py, pw, ph) {
         const overLapY = py < oy + orbSize && py + ph > oy;
 
         if (overLapX && overLapY) {
-            orbsList[currentLevel][i].collected = true; 
-            player.weight +=12.5;
-            return true; 
+            orbsList[currentLevel][i].collected = true;
+            player.weight += 12.5;
+            return true;
         }
 
         //console.log(orb, ox, oy, ow, oh)
     }
     return false
+}
+
+let portalCollideTime = 0;
+const portalMaxCollideTime = 2;
+let portalCoolDown = 0;
+const portalMaxCoolDown = 1;
+
+export function collisionWithPortal(px, py, pw, ph, delta) {
+    const portals = portalLevelMap[currentLevel];
+    const tileSize = 16 * scale;
+
+    if (portalCoolDown > 0) {
+        portalCoolDown -= delta;
+        return null;
+    }
+
+    for (let i = 0; i < portals.length; i++) {
+        const portal = portals[i];
+        // console.log(portal)
+
+        const pox = portal.col * tileSize;
+        const poy = portal.row * tileSize;
+
+        const overlapX = px < pox + tileSize && px + pw > pox;
+        const overlapY = py < poy + tileSize && py + ph > poy;
+
+        if (overlapX && overlapY) {
+            portalCollideTime += delta;
+            console.log(portal);
+            if (portalCollideTime >= portalMaxCollideTime) {
+                portalCollideTime = 0;
+                portalCoolDown = portalMaxCoolDown;
+                const toPortalId = portal.to;
+                let toPortal = null;
+                for (let j = 0; j < portals.length; j++) {
+                    if (toPortalId === portals[j].id) {
+                        toPortal = portals[j];
+                    }
+                }
+
+                if (!toPortal) return null;
+
+                return toPortal;
+            }
+            return null;
+        }
+    }
+    portalCollideTime = 0;
+    return null;
 }
