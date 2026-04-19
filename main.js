@@ -69,8 +69,11 @@ computerScreenSheet.src = "assets/computer_popup_spritesheet.png";
 export const timeBarSheet = new Image();
 timeBarSheet.src = "assets/Health_Bar_Block.png";
 
+export const extraSheet = new Image();
+extraSheet.src = "assets/doodads_spritesheet.png";
+
 let loadedCount = 0;
-const imageCount = 6;
+const imageCount = 7;
 
 function onImageLoad() {
     loadedCount++;
@@ -216,3 +219,4 @@ orbSheet.onload = onImageLoad;
 crateSheet.onload = onImageLoad;
 computerSheet.onload = onImageLoad;
 computerScreenSheet.onload = onImageLoad;
+extraSheet.onload = onImageLoad;

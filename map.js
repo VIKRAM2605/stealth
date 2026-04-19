@@ -1,5 +1,6 @@
 import { player } from "./character.js";
 import { ctx, scale, tileset } from "./main.js";
+import { drawWarningTape } from "./mapEndMarker.js";
 import { resetMapOrbs } from "./orbs.js";
 import { resetUpgrade } from "./shop.js";
 
@@ -121,4 +122,6 @@ export function drawMap() {
             )
         }
     }
+
+    drawWarningTape();
 };
