@@ -39,3 +39,30 @@ export function drawPortal() {
 
     }
 }
+
+let animTimer = 0;
+
+const maxAnimTime = 0.3;
+const maxFrames = 6;
+
+export function animatePortal(delta, portalIndex) {
+    animTimer += delta;
+    if (animTimer >= maxAnimTime) {
+        animTimer -= maxAnimTime;
+        portalLevelMap[currentLevel][portalIndex].animIndex += 1;
+        if (portalLevelMap[currentLevel][portalIndex].animIndex >= maxFrames) {
+            portalLevelMap[currentLevel][portalIndex].animIndex = 0;
+        }
+    }
+    for (let i = 0; i < portalLevelMap[currentLevel].length; i++) {
+        if (portalIndex === i) continue;
+        portalLevelMap[currentLevel][i].animIndex = 0;
+    }
+}
+
+export function resetAnimationTimer() {
+    animTimer = 0;
+    for (let i = 0; i < portalLevelMap[currentLevel].length; i++) {
+        portalLevelMap[currentLevel][i].animIndex = 0;
+    }
+}

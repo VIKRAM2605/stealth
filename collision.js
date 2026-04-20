@@ -3,7 +3,7 @@ import { scale } from "./main.js";
 import { currentLevel } from "./map.js";
 import { crateMap, crateSprites } from "./obstacle.js";
 import { orbsList } from "./orbs.js";
-import { portalLevelMap } from "./portal.js";
+import { animatePortal, portalLevelMap, resetAnimationTimer } from "./portal.js";
 
 // const tile = 16;
 
@@ -102,6 +102,7 @@ export function collisionWithPortal(px, py, pw, ph, delta) {
 
     if (portalCoolDown > 0) {
         portalCoolDown -= delta;
+        resetAnimationTimer();
         return null;
     }
 
@@ -117,7 +118,8 @@ export function collisionWithPortal(px, py, pw, ph, delta) {
 
         if (overlapX && overlapY) {
             portalCollideTime += delta;
-            console.log(portal);
+            animatePortal(delta, i);
+            // console.log(portal);
             if (portalCollideTime >= portalMaxCollideTime) {
                 portalCollideTime = 0;
                 portalCoolDown = portalMaxCoolDown;
@@ -135,6 +137,10 @@ export function collisionWithPortal(px, py, pw, ph, delta) {
             }
             return null;
         }
+    }
+    resetAnimationTimer();
+    for (let j = 0; j < portals.length; j++) {
+        portalLevelMap[currentLevel][j].animIndex = 0;
     }
     portalCollideTime = 0;
     return null;
