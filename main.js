@@ -75,8 +75,11 @@ extraSheet.src = "assets/doodads_spritesheet.png";
 export const portalSheet = new Image();
 portalSheet.src = "assets/portal_spritesheet.png";
 
+export const orbParticlesSheet = new Image();
+orbParticlesSheet.src = "assets/orb_particles_spritesheet.png";
+
 let loadedCount = 0;
-const imageCount = 8;
+const imageCount = 9;
 
 function onImageLoad() {
     loadedCount++;
@@ -224,3 +227,4 @@ computerSheet.onload = onImageLoad;
 computerScreenSheet.onload = onImageLoad;
 extraSheet.onload = onImageLoad;
 portalSheet.onload = onImageLoad;
+orbParticlesSheet.onload = onImageLoad;
