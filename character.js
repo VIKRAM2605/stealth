@@ -1,4 +1,4 @@
-import { collidesWithObject, collidesWithOrbs, collidesWithWall, collisionWithPortal } from "./collision.js";
+import { collidesWithObject, collidesWithOrbs, collidesWithWall, collisionWithLaser, collisionWithPortal } from "./collision.js";
 import { updateLaser } from "./lasers.js";
 import { canvas, characterSpriteSheet, ctx, keys, scale } from "./main.js";
 import { currentLevel, drawMap, getCurrentMap, setLevel } from "./map.js";
@@ -133,6 +133,7 @@ export const deathSprite = {
 
 export let isDead = false;
 let lastTime = 0;
+
 export let player = {
     x: 52,
     y: 32,
@@ -143,7 +144,10 @@ export let player = {
     weight: 0,
     timeLeft: 20,
     timeBought: 0,
-    weightBought: 0
+    weightBought: 0,
+    stunTime: 0,
+    maxStunTime: 2,
+    isStun: false,
 }
 
 export function toggleDeath() {
@@ -152,6 +156,18 @@ export function toggleDeath() {
 
 export function initPlayer() {
     player.timeLeft += player.timeBought;
+}
+
+export function resetPlayer(){
+    player.frameTimer = 0;
+    player.frameIndex = 0;
+    player.currentFrame = "down";
+    player.isStun = false;
+    player.stunTime = 0;
+    player.maxStunTime = 2;
+    player.x = 52;
+    player.y = 32;
+    player.timeLeft = 20;
 }
 
 //update character only takes horizontal first.
@@ -164,6 +180,27 @@ function updateCharacter(delta) {
 
     if (player.timeLeft <= 0) {
         toggleDeath();
+        return;
+    }
+
+    if (player.isStun) {
+        player.stunTime += delta;
+
+        if (player.stunTime > player.maxStunTime) {
+            player.stunTime = 0;
+            player.frameTimer = 0;
+            player.frameIndex = 0;
+            player.isStun = false;
+            return;
+        }
+
+        player.frameTimer += delta;
+        if (player.frameTimer >= 0.15) {
+            player.frameTimer = 0;
+            const frames = deathSprite[player.currentFrame].frames;
+            player.frameIndex = (player.frameIndex + 1) % (frames.length);
+        }
+
         return;
     }
 
@@ -191,6 +228,30 @@ function updateCharacter(delta) {
     }
 
     const currentSpeed = Math.max(30, player.speed - Math.max(0, (player.weight - player.weightBought * 12.5 / 2)));
+
+    if (collisionWithLaser(player.x, player.y, tileSize - 1, tileSize - 1)) {
+        player.isStun = true;
+        // const knockBack = scale * 8;
+        // if (player.currentFrame === "left") player.x += knockBack;
+        // if (player.currentFrame === "right") player.x -= knockBack;
+        // if (player.currentFrame === "up") player.y += knockBack;
+        // if (player.currentFrame === "down") player.y -= knockBack;
+
+        player.x -= dx * scale * 8;
+        if (collisionWithLaser(player.x, player.y, tileSize - 1, tileSize - 1)) {
+            player.x += dx * scale * 8;
+        }
+
+        player.y -= dy * scale * 8;
+        if (collisionWithLaser(player.x, player.y, tileSize - 1, tileSize - 1)) {
+            player.y += dy * scale * 8;
+        }
+
+        player.frameTimer = 0;
+        player.frameIndex = 0;
+
+        return;
+    }
 
     const portalCollision = collisionWithPortal(player.x, player.y, 16 * scale - 1, 16 * scale - 1, delta);
     if (portalCollision) {
@@ -251,13 +312,15 @@ function updateCharacter(delta) {
 function drawCharacter() {
 
     let frames;
-    if (isDead) {
+    if (isDead || player.isStun) {
         frames = deathSprite[player.currentFrame].frames;
     } else {
         frames = characterSprite[player.currentFrame].frames;
     }
 
     let frame = frames[player.frameIndex];
+
+    // console.log(frames,frame);
 
     // console.log(frame);
 

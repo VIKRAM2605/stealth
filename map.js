@@ -91,12 +91,6 @@ export function resetMap() {
     currentLevel = 1;
     resetUpgrade();
     resetMapOrbs();
-
-    player.weight = 0;
-    player.timeLeft = 20 + player.timeBought;
-
-    player.x = 52;
-    player.y = 32;
 }
 
 export function getCurrentMap() {

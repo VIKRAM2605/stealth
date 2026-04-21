@@ -1,4 +1,5 @@
 import { player } from "./character.js";
+import { laserLevelMap } from "./lasers.js";
 import { scale } from "./main.js";
 import { currentLevel } from "./map.js";
 import { crateMap, crateSprites } from "./obstacle.js";
@@ -144,4 +145,24 @@ export function collisionWithPortal(px, py, pw, ph, delta) {
     }
     portalCollideTime = 0;
     return null;
+}
+
+export function collisionWithLaser(px, py, pw, ph) {
+    const lasers = laserLevelMap[currentLevel];
+    const tileSize = 16 * scale;
+    
+    for (let i = 0; i < lasers.length; i++) {
+        const laser = lasers[i];
+
+        const lx = laser.col * tileSize;
+        const ly = laser.row * tileSize;
+
+        const overlapX = px < lx + tileSize && px + pw > lx;
+        const overlapY = py < ly + tileSize && py + ph > ly;
+
+        if(overlapX && overlapY){
+            return true;
+        }
+    }
+    return false;
 }

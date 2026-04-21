@@ -1,4 +1,4 @@
-import { gameLoop, initPlayer, isDead, toggleDeath } from "./character.js";
+import { gameLoop, initPlayer, isDead, resetPlayer, toggleDeath } from "./character.js";
 import { isTutorialActive, nextStep, startTutorial } from "./info.js";
 import { resetMap, setLevel } from "./map.js";
 import { resetOrbs } from "./money.js";
@@ -218,6 +218,7 @@ document.addEventListener('keyup', (e) => {
 
     switch (key) {
         case " ":
+            resetPlayer();
             resetMap();
             resetOrbs();
             toggleDeath();
