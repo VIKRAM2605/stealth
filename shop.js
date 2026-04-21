@@ -2,10 +2,19 @@ import { player } from "./character.js";
 import { wrapText } from "./info.js";
 import { computerScreenSheet, computerSheet, ctx, height, orbSheet, scale, width } from "./main.js";
 import { getCurrentOrbsCount } from "./money.js";
+import { randomInt } from "./orbs.js";
 
 export let isShopVisible = false;
 
 export let upgradeCost = 4;
+
+const upgradesAvailable = {
+    "Time Surge": "Increase Total Time By 1 Seconds(stacks).",
+    "Strength Surge": "Halve One Orb's Weigth(stacks).",
+    "Stun Break": "Reduce Stun Time By 5% of Current Stun Time.",
+}
+
+const displayUpgrades = []
 
 let upgradeSelected = "";
 
@@ -13,6 +22,7 @@ let errorMessage = "";
 
 export function toggleShowShop() {
     isShopVisible = !isShopVisible;
+    if(isShopVisible) pickRandomUpgrades();
 }
 
 export function resetUpgrade() {
@@ -45,18 +55,45 @@ export function canUpgrade() {
 export function updateUpgrade() {
     if (upgradeSelected !== "") upgradeCost += 2;
 
-    if (upgradeSelected === "timesurge") player.timeBought += 1;
-    if (upgradeSelected === "strengthsurge") player.weightBought += 1.5;
+    if (upgradeSelected === "Time Surge") player.timeBought += 1;
+    if (upgradeSelected === "Strength Surge") player.weightBought += 1.5;
+    if (upgradeSelected === "Stun Break") {
+        player.stunReduction += player.maxStunTime * 0.05 / 100;
+        player.maxStunTime -= player.stunReduction;
+    }
 
     upgradeSelected = "";
 }
 
+export function pickRandomUpgrades() {
+    const keys = [];
+    let isAvailable = true;
+    const upgradeKeys = Object.keys(upgradesAvailable);
+    while (true) {
+        const randomKey = upgradeKeys[randomInt(0, upgradeKeys.length - 1)];
+        isAvailable = true;
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i];
+            if (key == randomKey) isAvailable = false;
+        }
+        if (isAvailable) {
+            keys.push(randomKey);
+        }
+        if (keys.length === 2) {
+            for (let j = 0; j < keys.length; j++) {
+                displayUpgrades[j] = keys[j];
+            }
+            break;
+        };
+    }
+}
+
 export function selectedUpgrade(key) {
     if (key === "e") {
-        upgradeSelected = "timesurge";
+        upgradeSelected = displayUpgrades[0];
     }
     else if (key === 'f') {
-        upgradeSelected = "strengthsurge";
+        upgradeSelected = displayUpgrades[1];
     }
     else if (key === "esc") {
         upgradeSelected = "";
@@ -79,21 +116,21 @@ export function renderShop() {
         computerX, computerY, computerWidth, computerHeight
     );
 
-    const timeSelected = upgradeSelected === "timesurge" ? 0 : 192;
+    let selected = upgradeSelected === displayUpgrades[0] ? 0 : 192;
 
     ctx.drawImage(
         computerScreenSheet,        //for time
-        timeSelected, 0, 192, 64,
+        selected, 0, 192, 64,
         computerX + 130, computerY + 100, 192 * 1, 64 * 1.8
     );
 
     ctx.fillStyle = "#00C853";
     ctx.font = "18px PixelFont";
-    ctx.fillText("Time Surge", computerX + 192 + 10, 65 + 64 + computerY);
+    ctx.fillText(`${displayUpgrades[0]}`, computerX + 192 + 10, 65 + 64 + computerY);
 
     ctx.font = "12px PixelFont";
     ctx.textAlign = "left";
-    wrapText("Increase Total Time By 1 Second.", computerX + 153, 100 + 64 + computerY, 192 - 20, 11);
+    wrapText(`${upgradesAvailable[displayUpgrades[0]]}`, computerX + 153, 100 + 64 + computerY, 192 - 20, 11);
 
     ctx.fillStyle = "#dde3ff";
     ctx.font = "18px PixelFont";
@@ -101,22 +138,22 @@ export function renderShop() {
 
     drawOrbCost(computerX + 220, 60 + 64 * 1.8 * 2 + computerY, upgradeCost, color);
 
-    const strengthSelected = upgradeSelected === "strengthsurge" ? 0 : 192;
+    selected = upgradeSelected === displayUpgrades[1] ? 0 : 192;
 
     ctx.drawImage(
         computerScreenSheet,        //for weight carrage
-        strengthSelected, 0, 192, 64,
+        selected, 0, 192, 64,
         computerX + 192 + 200, computerY + 100, 192 * 1, 64 * 1.8
     );
 
     ctx.fillStyle = "#00C853";
     ctx.font = "18px PixelFont";
     ctx.textAlign = "center";
-    ctx.fillText("Strength Surge", computerX + 192 + 192 + 103, 65 + 64 + computerY);
+    ctx.fillText(`${displayUpgrades[1]}`, computerX + 192 + 192 + 103, 65 + 64 + computerY);
 
     ctx.font = "12px PixelFont";
     ctx.textAlign = "left";
-    wrapText("Halve One Orb's weight(Stacks)", computerX + 192 + 192 + 30, 100 + 64 + computerY, 192 - 20, 11);
+    wrapText(`${upgradesAvailable[displayUpgrades[1]]}`, computerX + 192 + 192 + 30, 100 + 64 + computerY, 192 - 20, 11);
 
     ctx.fillStyle = "#dde3ff";
     ctx.font = "18px PixelFont";

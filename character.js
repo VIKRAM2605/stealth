@@ -147,6 +147,7 @@ export let player = {
     weightBought: 0,
     stunTime: 0,
     maxStunTime: 2,
+    stunReduction: 0,
     isStun: false,
 }
 
