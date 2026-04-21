@@ -12,6 +12,7 @@ const upgradesAvailable = {
     "Time Surge": "Increase Total Time By 1 Seconds(stacks).",
     "Strength Surge": "Halve One Orb's Weigth(stacks).",
     "Stun Break": "Reduce Stun Time By 5% of Current Stun Time.",
+    "Orb Magnet": "Increases The Orb Collection Area By 8% Of Current Area."
 }
 
 const displayUpgrades = []
@@ -22,7 +23,7 @@ let errorMessage = "";
 
 export function toggleShowShop() {
     isShopVisible = !isShopVisible;
-    if(isShopVisible) pickRandomUpgrades();
+    if (isShopVisible) pickRandomUpgrades();
 }
 
 export function resetUpgrade() {
@@ -58,10 +59,12 @@ export function updateUpgrade() {
     if (upgradeSelected === "Time Surge") player.timeBought += 1;
     if (upgradeSelected === "Strength Surge") player.weightBought += 1.5;
     if (upgradeSelected === "Stun Break") {
-        player.stunReduction += player.maxStunTime * 0.05 / 100;
+        player.stunReduction = player.maxStunTime * 0.05;
         player.maxStunTime -= player.stunReduction;
     }
-
+    if (upgradeSelected === "Orb Magnet") {
+        player.orbRadius += player.orbRadius * 0.08;
+    }
     upgradeSelected = "";
 }
 

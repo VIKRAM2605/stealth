@@ -64,7 +64,7 @@ export function collidesWithObject(px, py, pw, ph) {
 export function collidesWithOrbs(px, py, pw, ph) {
     const orbs = orbsList[currentLevel] ?? [];
     const tileSize = 16 * scale;
-    const orbSize = 16 * (scale - 1);
+    const orbSize = player.orbRadius;
     const offset = (tileSize - orbSize) / 2 * 1.5;
 
     for (let i = 0; i < orbs.length; i++) {

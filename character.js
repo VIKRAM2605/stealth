@@ -149,6 +149,7 @@ export let player = {
     maxStunTime: 2,
     stunReduction: 0,
     isStun: false,
+    orbRadius: 16,
 }
 
 export function toggleDeath() {
@@ -157,6 +158,7 @@ export function toggleDeath() {
 
 export function initPlayer() {
     player.timeLeft += player.timeBought;
+    player.orbRadius = 16 * (scale -1);
 }
 
 export function resetPlayer() {
