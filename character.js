@@ -1,4 +1,5 @@
 import { collidesWithObject, collidesWithOrbs, collidesWithWall, collisionWithPortal } from "./collision.js";
+import { updateLaser } from "./lasers.js";
 import { canvas, characterSpriteSheet, ctx, keys, scale } from "./main.js";
 import { currentLevel, drawMap, getCurrentMap, setLevel } from "./map.js";
 import { updateTotal } from "./money.js";
@@ -292,6 +293,7 @@ export function gameLoop(currentTime) {
 
     updateCharacter(delta);
     updateOrbs(delta);
+    updateLaser(delta);
 
     drawCharacter();
 

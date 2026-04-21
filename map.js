@@ -1,4 +1,5 @@
 import { player } from "./character.js";
+import { drawLaser } from "./lasers.js";
 import { ctx, scale, tileset } from "./main.js";
 import { drawWarningTape } from "./mapEndMarker.js";
 import { resetMapOrbs } from "./orbs.js";
@@ -126,4 +127,5 @@ export function drawMap() {
 
     drawWarningTape();
     drawPortal();
+    drawLaser();
 };

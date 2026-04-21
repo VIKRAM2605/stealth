@@ -23,7 +23,7 @@ function resizeCanvas() {
     // const availableWidth = window.innerWidth;
     // const availableHeight = window.innerHeight;
 
-    scale = Math.floor(Math.min(window.innerWidth , window.innerHeight) / (tileSize * cols))
+    scale = Math.floor(Math.min(window.innerWidth, window.innerHeight) / (tileSize * cols))
 
     const dpr = window.devicePixelRatio || 1;
 
@@ -78,8 +78,14 @@ portalSheet.src = "assets/portal_spritesheet.png";
 export const orbParticlesSheet = new Image();
 orbParticlesSheet.src = "assets/orb_particles_spritesheet.png";
 
+export const laserSheet = new Image();
+laserSheet.src = "assets/lasers_spritesheet.png";
+
+export const buttonsSheet = new Image();
+buttonsSheet.src = "assets/button_large_spritesheet.png";
+
 let loadedCount = 0;
-const imageCount = 9;
+const imageCount = 11;
 
 function onImageLoad() {
     loadedCount++;
@@ -228,3 +234,5 @@ computerScreenSheet.onload = onImageLoad;
 extraSheet.onload = onImageLoad;
 portalSheet.onload = onImageLoad;
 orbParticlesSheet.onload = onImageLoad;
+laserSheet.onload = onImageLoad;
+buttonsSheet.onload = onImageLoad;
