@@ -256,7 +256,7 @@ export const orbsList = {
 };
 
 export function resetMapOrbs() {
-    for (let i = 0; i < orbsList[currentLevel].length; i++) {
+    for (let i = 0; i < (orbsList[currentLevel]??[]).length; i++) {
         orbsList[currentLevel][i].collected = false;
         orbsList[currentLevel][i].orbIndex = 0;
         orbsList[currentLevel][i].orbTime = 0;
@@ -271,14 +271,14 @@ const maxParticleSelectionCoolDown = 1;
 export function updateOrbs(delta) {
     updateParticleTimer(delta);
     const chance = randomInt(0, 100);
-    if (particleSelectionCooldown >=0) {
-        particleSelectionCooldown -=delta;
+    if (particleSelectionCooldown >= 0) {
+        particleSelectionCooldown -= delta;
     }
     else if (chance > 65) {
         pickParticleForOrbs();
         particleSelectionCooldown = maxParticleSelectionCoolDown;
     }
-    for (let i = 0; i < orbsList[currentLevel].length; i++) {
+    for (let i = 0; i < (orbsList[currentLevel] ?? []).length; i++) {
 
         if (orbsList[currentLevel][i].collected) continue;
 
@@ -296,7 +296,7 @@ export function updateOrbs(delta) {
 
 
 export function drawOrb(row, col, index) {
-    const pos = orbsSprite[index];
+    const pos = orbsSprite[index] ?? [];
     const orbSize = tileSize * (scale - 1);
     const offset = (tileSize * scale - orbSize) / 2;
     ctx.drawImage(
@@ -312,7 +312,7 @@ export function drawOrbParticles() {
     const particleSize = tileSize * (scale - 1);
     const offset = (tileSize * scale - particleSize) / 2;
 
-    for (let i = 0; i < orbsList[currentLevel].length; i++) {
+    for (let i = 0; i < (orbsList[currentLevel] ?? []).length; i++) {
         const orb = orbsList[currentLevel][i];
 
         if (orb.particle === null) continue;
@@ -335,7 +335,7 @@ export function pickParticleForOrbs() {
     const maxAttempt = 10;
 
     while (attempt < maxAttempt) {
-        const randomIndex = randomInt(0, orbsList[currentLevel].length - 1);
+        const randomIndex = randomInt(0, (orbsList[currentLevel] ?? []).length - 1);
         if (orbsList[currentLevel][randomIndex].particle === null) {
             const randomParticleIndex = randomInt(0, obrParticleSprite.length - 1);
             const side = sides[randomInt(0, sides.length - 1)];
@@ -353,7 +353,7 @@ export function randomInt(min, max) {
 }
 
 export function updateParticleTimer(delta) {
-    for (let i = 0; i < orbsList[currentLevel].length; i++) {
+    for (let i = 0; i < (orbsList[currentLevel] ?? []).length; i++) {
         if (orbsList[currentLevel][i].particle === null) continue;
 
         orbsList[currentLevel][i].particleTime += delta;

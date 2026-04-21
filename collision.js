@@ -1,12 +1,11 @@
 import { player } from "./character.js";
-import { laserLevelMap } from "./lasers.js";
+import { buttonLevelMap, updateButton } from "./laserButtons.js";
+import { laserLevelMap, turnOffLaser } from "./lasers.js";
 import { scale } from "./main.js";
 import { currentLevel } from "./map.js";
 import { crateMap, crateSprites } from "./obstacle.js";
 import { orbsList } from "./orbs.js";
 import { animatePortal, portalLevelMap, resetAnimationTimer } from "./portal.js";
-
-// const tile = 16;
 
 export function getTile(map, px, py) {
     const tileSize = 16 * scale;
@@ -37,7 +36,7 @@ export function collidesWithWall(map, x, y, w, h) {
 
 export function collidesWithObject(px, py, pw, ph) {
     const tileSize = 16 * scale;
-    const crates = crateMap[currentLevel];
+    const crates = crateMap[currentLevel] ?? [];
     const topOffset = 8 * scale;
     const leftRightOffset = 3 * scale;
 
@@ -63,7 +62,7 @@ export function collidesWithObject(px, py, pw, ph) {
 }
 
 export function collidesWithOrbs(px, py, pw, ph) {
-    const orbs = orbsList[currentLevel];
+    const orbs = orbsList[currentLevel] ?? [];
     const tileSize = 16 * scale;
     const orbSize = 16 * (scale - 1);
     const offset = (tileSize - orbSize) / 2 * 1.5;
@@ -75,8 +74,6 @@ export function collidesWithOrbs(px, py, pw, ph) {
 
         const ox = orb.col * tileSize + offset;
         const oy = orb.row * tileSize + offset;
-        // const ow = 16;
-        // const oh = 16;
 
         const overLapX = px < ox + orbSize && px + pw > ox;
         const overLapY = py < oy + orbSize && py + ph > oy;
@@ -87,7 +84,6 @@ export function collidesWithOrbs(px, py, pw, ph) {
             return true;
         }
 
-        //console.log(orb, ox, oy, ow, oh)
     }
     return false
 }
@@ -98,7 +94,7 @@ let portalCoolDown = 0;
 const portalMaxCoolDown = 1;
 
 export function collisionWithPortal(px, py, pw, ph, delta) {
-    const portals = portalLevelMap[currentLevel];
+    const portals = portalLevelMap[currentLevel] ?? [];
     const tileSize = 16 * scale;
 
     if (portalCoolDown > 0) {
@@ -109,7 +105,6 @@ export function collisionWithPortal(px, py, pw, ph, delta) {
 
     for (let i = 0; i < portals.length; i++) {
         const portal = portals[i];
-        // console.log(portal)
 
         const pox = portal.col * tileSize;
         const poy = portal.row * tileSize;
@@ -120,7 +115,6 @@ export function collisionWithPortal(px, py, pw, ph, delta) {
         if (overlapX && overlapY) {
             portalCollideTime += delta;
             animatePortal(delta, i);
-            // console.log(portal);
             if (portalCollideTime >= portalMaxCollideTime) {
                 portalCollideTime = 0;
                 portalCoolDown = portalMaxCoolDown;
@@ -148,21 +142,63 @@ export function collisionWithPortal(px, py, pw, ph, delta) {
 }
 
 export function collisionWithLaser(px, py, pw, ph) {
-    const lasers = laserLevelMap[currentLevel];
+    const lasers = laserLevelMap[currentLevel] ?? [];
     const tileSize = 16 * scale;
-    
+    const buffer = scale * 2;
+
     for (let i = 0; i < lasers.length; i++) {
         const laser = lasers[i];
 
-        const lx = laser.col * tileSize;
-        const ly = laser.row * tileSize;
+        if (laser.off) continue;
 
-        const overlapX = px < lx + tileSize && px + pw > lx;
-        const overlapY = py < ly + tileSize && py + ph > ly;
+        const lx = laser.col * tileSize + buffer;
+        const ly = laser.row * tileSize + buffer;
+        const lw = tileSize - buffer * 2;
+        const lh = tileSize - buffer * 2;
 
-        if(overlapX && overlapY){
+        const overlapX = px < lx + lw && px + pw > lx;
+        const overlapY = py < ly + lh && py + ph > ly;
+
+        if (overlapX && overlapY) {
             return true;
         }
+    }
+    return false;
+}
+
+let stepTimer = 0;
+const maxStepTimer = 0.5;
+
+export function collisionWithButton(px, py, pw, ph, delta) {
+    const buttons = buttonLevelMap[currentLevel] ?? [];
+    const tileSize = 16 * scale;
+    const buttonSize = tileSize * 0.7;
+    const offsetX = (tileSize - buttonSize) / 2 + scale * 0.5;
+    const offsetY = (tileSize - buttonSize) / 2 + scale * 0.5;
+
+    for (let i = 0; i < buttons.length; i++) {
+        const button = buttons[i];
+
+        const bx = button.col * tileSize + offsetX;
+        const by = button.row * tileSize + offsetY;
+
+        const overlapX = px < bx + buttonSize && px + pw > bx;
+        const overlapY = py < by + buttonSize && py + ph > by;
+
+        if (overlapX && overlapY) {
+            stepTimer += delta;
+            if (stepTimer > maxStepTimer) {
+                stepTimer = 0;
+                const laserId = button.off;
+
+                turnOffLaser(laserId);
+                updateButton(button.id);
+
+                return true;
+            }
+            return true;
+        }
+        stepTimer = 0;
     }
     return false;
 }

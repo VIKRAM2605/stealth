@@ -24,7 +24,7 @@ export const portalLevelMap = {
 }
 
 export function drawPortal() {
-    const portals = portalLevelMap[currentLevel];
+    const portals = portalLevelMap[currentLevel] ?? [];
     const tileSize = tile * scale;
     for (let i = 0; i < portals.length; i++) {
 
@@ -62,7 +62,7 @@ export function animatePortal(delta, portalIndex) {
 
 export function resetAnimationTimer() {
     animTimer = 0;
-    for (let i = 0; i < portalLevelMap[currentLevel].length; i++) {
+    for (let i = 0; i < (portalLevelMap[currentLevel] ?? []).length; i++) {
         portalLevelMap[currentLevel][i].animIndex = 0;
     }
 }

@@ -11,7 +11,7 @@ const warningTapeMap = {
 }
 
 export function drawWarningTape() {
-    const tapeMap = warningTapeMap[currentLevel];
+    const tapeMap = warningTapeMap[currentLevel] ?? [];
     const tileSize = tile * scale;
     for (let i = 0; i < tapeMap.length; i++) {
         ctx.drawImage(

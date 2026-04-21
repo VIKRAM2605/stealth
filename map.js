@@ -1,5 +1,6 @@
 import { player } from "./character.js";
-import { drawLaser } from "./lasers.js";
+import { drawButtons, resetButtons } from "./laserButtons.js";
+import { drawLaser, resetLasers } from "./lasers.js";
 import { ctx, scale, tileset } from "./main.js";
 import { drawWarningTape } from "./mapEndMarker.js";
 import { resetMapOrbs } from "./orbs.js";
@@ -79,6 +80,8 @@ export function setLevel() {
     currentLevel += 1;
     if (currentLevel > Object.keys(maps).length) currentLevel = 1;
     resetMapOrbs();
+    resetButtons();
+    resetLasers();
 
     player.weight = 0;
     player.timeLeft = 20 + player.timeBought;
@@ -94,15 +97,12 @@ export function resetMap() {
 }
 
 export function getCurrentMap() {
-    return maps[currentLevel];
+    return maps[currentLevel] ?? [];
 };
 
 export function drawMap() {
     const map = getCurrentMap();
     const size = tileSize * scale;
-
-    // const offsetX;
-    // const offsety;
 
     for (let row = 0; row < map.length; row++) {
         for (let col = 0; col < map[row].length; col++) {
@@ -122,4 +122,5 @@ export function drawMap() {
     drawWarningTape();
     drawPortal();
     drawLaser();
+    drawButtons();
 };

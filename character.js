@@ -1,4 +1,4 @@
-import { collidesWithObject, collidesWithOrbs, collidesWithWall, collisionWithLaser, collisionWithPortal } from "./collision.js";
+import { collidesWithObject, collidesWithOrbs, collidesWithWall, collisionWithButton, collisionWithLaser, collisionWithPortal } from "./collision.js";
 import { updateLaser } from "./lasers.js";
 import { canvas, characterSpriteSheet, ctx, keys, scale } from "./main.js";
 import { currentLevel, drawMap, getCurrentMap, setLevel } from "./map.js";
@@ -140,7 +140,7 @@ export let player = {
     currentFrame: "down",
     frameIndex: 0,
     frameTimer: 0,
-    speed: 100,
+    speed: 150,
     weight: 0,
     timeLeft: 20,
     timeBought: 0,
@@ -158,7 +158,7 @@ export function initPlayer() {
     player.timeLeft += player.timeBought;
 }
 
-export function resetPlayer(){
+export function resetPlayer() {
     player.frameTimer = 0;
     player.frameIndex = 0;
     player.currentFrame = "down";
@@ -253,6 +253,10 @@ function updateCharacter(delta) {
         return;
     }
 
+    if (collisionWithButton(player.x, player.y, tileSize - 1, tileSize - 1, delta)) {
+        console.log("collided with button");
+    }
+
     const portalCollision = collisionWithPortal(player.x, player.y, 16 * scale - 1, 16 * scale - 1, delta);
     if (portalCollision) {
         console.log(portalCollision);
@@ -279,15 +283,7 @@ function updateCharacter(delta) {
 
     const tile = map[playerRow]?.[playerCol] ?? 0;
 
-    // if (tile !== 10 && tile !== 18) {
-    //     player.x -= dx * delta * player.speed;
-    //     player.y -= dy * delta * player.speed;
-    // }
-
     if (playerRow >= map.length - 2 && (tile === 10 || tile === 18)) {
-        // setLevel(currentLevel + 1);
-        // player.x = 32;
-        // player.y = 32;
         toggleShowShop();
     }
 
@@ -318,11 +314,7 @@ function drawCharacter() {
         frames = characterSprite[player.currentFrame].frames;
     }
 
-    let frame = frames[player.frameIndex];
-
-    // console.log(frames,frame);
-
-    // console.log(frame);
+    let frame = frames[player.frameIndex % frames.length];
 
     ctx.drawImage(
         characterSpriteSheet,

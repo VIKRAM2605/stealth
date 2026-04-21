@@ -5,6 +5,8 @@ import { resetOrbs } from "./money.js";
 import { canUpgrade, isShopVisible, resetUpgrade, selectedUpgrade, toggleShowShop, updateUpgrade } from "./shop.js";
 import './music.js';
 import { resetMapOrbs } from "./orbs.js";
+import { resetButtons } from "./laserButtons.js";
+import { resetLasers } from "./lasers.js";
 const pixelFont = new FontFace("PixelFont", "url(assets/04B_03__.TTF)");
 pixelFont.load().then(f => document.fonts.add(f));
 
@@ -221,6 +223,8 @@ document.addEventListener('keyup', (e) => {
             resetPlayer();
             resetMap();
             resetOrbs();
+            resetButtons();
+            resetLasers();
             toggleDeath();
             return;
     }

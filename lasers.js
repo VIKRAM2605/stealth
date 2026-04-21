@@ -21,19 +21,63 @@ const laserSprite = {
             { row: 6, col: 1 },
             { row: 6, col: 2 }
         ]
+    },
+    offLeft: {
+        frames: [
+            { row: 8, col: 1 },
+        ]
+    },
+    offMiddle: {
+        frames: [
+            { row: 8, col: 2 }
+        ]
+    },
+    offRight: {
+        frames: [
+            { row: 9, col: 1 }
+        ]
     }
+
 };
 
 export const laserLevelMap = {
     1: [
-        { row: 3, col: 4, sprite: "leftStart", frameIndex: 0, frameTimer: 0 }, { row: 3, col: 5, sprite: "middle", frameIndex: 0, frameTimer: 0 }, { row: 3, col: 6, sprite: "rightEnd", frameIndex: 0, frameTimer: 0 }
+        { id: "laser1_lvl1", row: 3, col: 4, sprite: "leftStart", frameIndex: 0, frameTimer: 0, off: false }, { id: "laser1_lvl1", row: 3, col: 5, sprite: "middle", frameIndex: 0, frameTimer: 0, off: false }, { id: "laser1_lvl1", row: 3, col: 6, sprite: "rightEnd", frameIndex: 0, frameTimer: 0, off: false }
     ]
 }
 
 const maxLaserFrameTimer = 0.3;
 
+export function turnOffLaser(id) {
+    const lasers = laserLevelMap[currentLevel] ?? [];
+    for (let i = 0; i < lasers.length; i++) {
+        const laser = lasers[i];
+        if (laser.id === id) {
+            if (laser.sprite === "leftStart") laser.sprite = "offLeft";
+            else if (laser.sprite === "rightEnd") laser.sprite = "offRight";
+            else if (laser.sprite === "middle") laser.sprite = "offMiddle";
+            laser.frameIndex = 0;
+            laser.frameTimer = 0;
+            laser.off = true;
+        }
+    }
+}
+
+export function resetLasers() {
+    const lasers = laserLevelMap[currentLevel] ?? [];
+    for (let i = 0; i < lasers.length; i++) {
+        const laser = lasers[i];
+        if (laser.sprite === "offLeft") laser.sprite = "leftStart";
+        else if (laser.sprite === "offRight") laser.sprite = "rightEnd";
+        else if (laser.sprite === "offMiddle") laser.sprite = "middle";
+        laser.frameIndex = 0;
+        laser.frameTime = 0;
+        laser.off = false;
+    }
+}
+
 export function drawLaser() {
-    const lasers = laserLevelMap[currentLevel];
+    const lasers = laserLevelMap[currentLevel] ?? [];
     const laserSize = tileSize * scale;
 
     for (let i = 0; i < lasers.length; i++) {
@@ -49,7 +93,7 @@ export function drawLaser() {
 }
 
 export function updateLaser(delta) {
-    const lasers = laserLevelMap[currentLevel];
+    const lasers = laserLevelMap[currentLevel] ?? [];
 
     for (let i = 0; i < lasers.length; i++) {
         const laser = lasers[i];
