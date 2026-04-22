@@ -7,6 +7,7 @@ import './music.js';
 import { resetMapOrbs } from "./orbs.js";
 import { resetButtons } from "./laserButtons.js";
 import { resetLasers } from "./lasers.js";
+import { initBotSheet } from "./bot.js";
 const pixelFont = new FontFace("PixelFont", "url(assets/04B_03__.TTF)");
 pixelFont.load().then(f => document.fonts.add(f));
 
@@ -86,14 +87,24 @@ laserSheet.src = "assets/lasers_spritesheet.png";
 export const buttonsSheet = new Image();
 buttonsSheet.src = "assets/button_large_spritesheet.png";
 
+export const bot1Sheet = new Image();
+bot1Sheet.src = "assets/guard_yellow_spritesheet.png";
+
+export const bot2Sheet = new Image();
+bot2Sheet.src = "assets/guard_orange_spritesheet.png";
+
+export const bot3Sheet = new Image();
+bot3Sheet.src = "assets/guard_white_spritesheet.png";
+
 let loadedCount = 0;
-const imageCount = 11;
+const imageCount = 14;
 
 function onImageLoad() {
     loadedCount++;
     if (loadedCount === imageCount) {
-        console.log("started")
-        //requestAnimationFrame(gameLoop);
+        console.log("started");
+        initBotSheet();
+        setLevel();
         initPlayer();
         startTutorial();
     }
@@ -186,7 +197,6 @@ document.addEventListener('keyup', (e) => {
     e.preventDefault();
 
     const key = e.key.toLowerCase();
-    // console.log(key);
 
     if (!isShopVisible) return;
 
@@ -241,3 +251,6 @@ portalSheet.onload = onImageLoad;
 orbParticlesSheet.onload = onImageLoad;
 laserSheet.onload = onImageLoad;
 buttonsSheet.onload = onImageLoad;
+bot1Sheet.onload = onImageLoad;
+bot2Sheet.onload = onImageLoad;
+bot3Sheet.onload = onImageLoad;

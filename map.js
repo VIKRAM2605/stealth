@@ -1,3 +1,4 @@
+import { pickRandomSpriteForBot } from "./bot.js";
 import { player } from "./character.js";
 import { drawButtons, resetButtons } from "./laserButtons.js";
 import { drawLaser, resetLasers } from "./lasers.js";
@@ -74,11 +75,12 @@ const maps = {
     ],
 };
 
-export let currentLevel = 1;
+export let currentLevel = 0;
 
 export function setLevel() {
     currentLevel += 1;
     if (currentLevel > Object.keys(maps).length) currentLevel = 1;
+    pickRandomSpriteForBot();
     resetMapOrbs();
     resetButtons();
     resetLasers();

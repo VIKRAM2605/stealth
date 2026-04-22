@@ -1,3 +1,4 @@
+import { drawBot, updateBot } from "./bot.js";
 import { collidesWithObject, collidesWithOrbs, collidesWithWall, collisionWithButton, collisionWithLaser, collisionWithPortal } from "./collision.js";
 import { updateLaser } from "./lasers.js";
 import { canvas, characterSpriteSheet, ctx, keys, scale } from "./main.js";
@@ -352,8 +353,10 @@ export function gameLoop(currentTime) {
     updateCharacter(delta);
     updateOrbs(delta);
     updateLaser(delta);
+    updateBot(delta);
 
     drawCharacter();
+    drawBot();
 
     requestAnimationFrame(gameLoop)
 }
