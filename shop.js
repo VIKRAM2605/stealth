@@ -4,6 +4,8 @@ import { computerScreenSheet, computerSheet, ctx, height, orbSheet, scale, width
 import { getCurrentOrbsCount } from "./money.js";
 import { randomInt } from "./orbs.js";
 
+// need to update based on scale
+
 export let isShopVisible = false;
 
 export let upgradeCost = 4;
@@ -12,7 +14,8 @@ const upgradesAvailable = {
     "Time Surge": "Increase Total Time By 1 Seconds(stacks).",
     "Strength Surge": "Halve One Orb's Weigth(stacks).",
     "Stun Break": "Reduce Stun Time By 5% of Current Stun Time.",
-    "Orb Magnet": "Increases The Orb Collection Area By 8% Of Current Area."
+    "Orb Magnet": "Increases The Orb Collection Area By 8% Of Current Area.",
+    "Bot Slower": "Makes The Bot Go 7% Slower Than Current Speed. "
 }
 
 const displayUpgrades = []
@@ -57,14 +60,18 @@ export function updateUpgrade() {
     if (upgradeSelected !== "") upgradeCost += 2;
 
     if (upgradeSelected === "Time Surge") player.timeBought += 1;
-    if (upgradeSelected === "Strength Surge") player.weightBought += 1.5;
-    if (upgradeSelected === "Stun Break") {
+    else if (upgradeSelected === "Strength Surge") player.weightBought += 1.5;
+    else if (upgradeSelected === "Stun Break") {
         player.stunReduction = player.maxStunTime * 0.05;
         player.maxStunTime -= player.stunReduction;
     }
-    if (upgradeSelected === "Orb Magnet") {
+    else if (upgradeSelected === "Orb Magnet") {
         player.orbRadius += player.orbRadius * 0.08;
     }
+    else if (upgradeSelected === "Bot Slower"){
+        console.log("botSlower");
+    }
+
     upgradeSelected = "";
 }
 

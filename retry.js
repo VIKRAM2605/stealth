@@ -4,9 +4,8 @@ import { canvas, characterSpriteSheet, computerSheet, ctx, height, scale, width 
 let counter = 0;
 const frameTimer = 0.15;
 let timePassed = 0;
-// export function updateDeathSprite() {
 
-// }
+//need to update based on the scale
 
 export function renderDeathScreen(delta) {
     const computerWidth = 240 * scale;

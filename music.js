@@ -19,3 +19,5 @@ function startMusicPlay(){
 
 document.addEventListener('click',startMusicPlay);
 document.addEventListener('keydown',startMusicPlay);
+
+//need to add sound effects for laser and button clicking if found.

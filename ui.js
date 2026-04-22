@@ -7,7 +7,6 @@ export const bars = {
 }
 
 export function drawUi() {
-    //drawOrbsTotal();
     drawRemainingTime();
 }
 
