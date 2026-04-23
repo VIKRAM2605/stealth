@@ -5,20 +5,20 @@ const portalSprite = [{ row: 1, col: 1 }, { row: 1, col: 2 }, { row: 1, col: 3 }
 const tile = 16;
 
 export const portalLevelMap = {
-    1: [
+    3: [
         {
-            id: "portal1_lvl_1",
+            id: "portal1_lvl_3",
             animIndex: 0,
             row: 5,
             col: 7,
-            to: "portal2_lvl_1"
+            to: "portal2_lvl_3"
         },
         {
-            id: "portal2_lvl_1",
+            id: "portal2_lvl_3",
             animIndex: 0,
             row: 5,
             col: 11,
-            to: "portal1_lvl_1"
+            to: "portal1_lvl_3"
         }
     ]
 }

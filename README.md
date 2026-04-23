@@ -17,7 +17,6 @@ Each Level starts with 20 seconds(base time) and as soon as the game starts to p
 Orbs are scattered all over the map kinda like coins you need to collect the orbs to earn orb money that is needed to buy the upgrades.
 Each Orb you gather adds weight to the player. The more you collect the more the player will get slowed down. There is a buffer so that you can't go slower than it.
 Upgrades will help you collect the orbs much easier. Down below i have explained it clearly.
-Bots will be spawned at some levels so they will start to chase you when you get closer to them.
 Portal are spawned in some levels which help you teleport the player from one portal to the another.
 Laser are spawned at some level they will stun you if they are not turned off.
 
@@ -46,11 +45,6 @@ Reduce the time of the stun when getting zapped by the laser by 5% of current st
 
 ## Orb Magnet
 Increase the Area(in circle) So when player gets in the circle the orb will get instanlty collected without the needing to get closer to it. Per upgrade you buy it increases the current area size by 8%.
-
----
-
-## Bot Slower
-Slows the bot speed. Every time you buy the upgrade the bot's speed will get reduced by 7% of current bot's speed.
 
 ---
 

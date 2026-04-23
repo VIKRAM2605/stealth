@@ -141,7 +141,7 @@ export let player = {
     currentFrame: "down",
     frameIndex: 0,
     frameTimer: 0,
-    speed: 150,
+    speed: 450,
     weight: 0,
     timeLeft: 20,
     timeBought: 0,
@@ -353,10 +353,10 @@ export function gameLoop(currentTime) {
     updateCharacter(delta);
     updateOrbs(delta);
     updateLaser(delta);
-    updateBot(delta);
+    //updateBot(delta);
 
     drawCharacter();
-    drawBot();
+    //drawBot();
 
     requestAnimationFrame(gameLoop)
 }

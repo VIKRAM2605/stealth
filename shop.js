@@ -68,7 +68,7 @@ export function updateUpgrade() {
     else if (upgradeSelected === "Orb Magnet") {
         player.orbRadius += player.orbRadius * 0.08;
     }
-    else if (upgradeSelected === "Bot Slower"){
+    else if (upgradeSelected === "Bot Slower") {
         console.log("botSlower");
     }
 
@@ -119,6 +119,7 @@ export function renderShop() {
     const computerHeight = 192 * scale;
     const computerX = (width / 2) - (computerWidth) / 2;
     const computerY = (height / 2) - (computerHeight) / 2;
+    const cx = computerX + computerWidth / 2;
 
     ctx.drawImage(
         computerSheet,
@@ -126,88 +127,126 @@ export function renderShop() {
         computerX, computerY, computerWidth, computerHeight
     );
 
+    const cardW = Math.round(74 * scale);
+    const cardH = Math.round(38 * scale);
+    const cardY = computerY + Math.round(35 * scale);
+
+    const card1X = computerX + Math.round(40 * scale);
+    const card2X = computerX + computerWidth - cardW - Math.round(40 * scale);
+
     let selected = upgradeSelected === displayUpgrades[0] ? 0 : 192;
 
     ctx.drawImage(
         computerScreenSheet,        //for time
         selected, 0, 192, 64,
-        computerX + 130, computerY + 100, 192 * 1, 64 * 1.8
+        card1X, cardY, cardW, cardH
     );
 
     ctx.fillStyle = "#00C853";
-    ctx.font = "18px PixelFont";
-    ctx.fillText(`${displayUpgrades[0]}`, computerX + 192 + 10, 65 + 64 + computerY);
-
-    ctx.font = "12px PixelFont";
+    ctx.font = `${Math.round(6 * scale)}px PixelFont`;
     ctx.textAlign = "left";
-    wrapText(`${upgradesAvailable[displayUpgrades[0]]}`, computerX + 153, 100 + 64 + computerY, 192 - 20, 11);
+    ctx.fillText(`${displayUpgrades[0]}`, card1X + Math.round(8 * scale), cardY + Math.round(11 * scale));
+
+    ctx.font = `${Math.round(4 * scale)}px PixelFont`;
+    ctx.textAlign = "left";
+    wrapText(
+        `${upgradesAvailable[displayUpgrades[0]]}`,
+        card1X + Math.round(8 * scale),
+        cardY + Math.round(20 * scale),
+        cardW - Math.round(6 * scale),
+        Math.round(6 * scale)
+    );
 
     ctx.fillStyle = "#dde3ff";
-    ctx.font = "18px PixelFont";
-    ctx.fillText("Press 'E'", computerX + 182, 20 + 64 * 1.8 * 2 + computerY);
+    ctx.font = `${Math.round(6 * scale)}px PixelFont`;
+    ctx.textAlign = "center";
+    ctx.fillText("Press 'E'", card1X + cardW / 2, cardY + cardH + Math.round(14 * scale));
 
-    drawOrbCost(computerX + 220, 60 + 64 * 1.8 * 2 + computerY, upgradeCost, color);
+    drawOrbCost(card1X + cardW / 2, cardY + cardH + Math.round(28 * scale), upgradeCost, color);
 
     selected = upgradeSelected === displayUpgrades[1] ? 0 : 192;
 
     ctx.drawImage(
         computerScreenSheet,        //for weight carrage
         selected, 0, 192, 64,
-        computerX + 192 + 200, computerY + 100, 192 * 1, 64 * 1.8
+        card2X, cardY, cardW, cardH
     );
 
     ctx.fillStyle = "#00C853";
-    ctx.font = "18px PixelFont";
-    ctx.textAlign = "center";
-    ctx.fillText(`${displayUpgrades[1]}`, computerX + 192 + 192 + 103, 65 + 64 + computerY);
-
-    ctx.font = "12px PixelFont";
+    ctx.font = `${Math.round(6 * scale)}px PixelFont`;
     ctx.textAlign = "left";
-    wrapText(`${upgradesAvailable[displayUpgrades[1]]}`, computerX + 192 + 192 + 30, 100 + 64 + computerY, 192 - 20, 11);
+    ctx.fillText(`${displayUpgrades[1]}`, card2X + Math.round(8 * scale), cardY + Math.round(11 * scale));
+
+    ctx.font = `${Math.round(4 * scale)}px PixelFont`;
+    ctx.textAlign = "left";
+    wrapText(
+        `${upgradesAvailable[displayUpgrades[1]]}`,
+        card2X + Math.round(8 * scale),
+        cardY + Math.round(20 * scale),
+        cardW - Math.round(6 * scale),
+        Math.round(6 * scale)
+    );
 
     ctx.fillStyle = "#dde3ff";
-    ctx.font = "18px PixelFont";
-    ctx.fillText("Press 'F'", computerX + 192 + 192 + 60, 20 + 64 * 1.8 * 2 + computerY);
+    ctx.font = `${Math.round(6 * scale)}px PixelFont`;
+    ctx.textAlign = "center";
+    ctx.fillText("Press 'F'", card2X + cardW / 2, cardY + cardH + Math.round(14 * scale));
 
-    drawOrbCost(computerX + 192 + 192 + 100, 60 + 64 * 1.8 * 2 + computerY, upgradeCost, color);
+    drawOrbCost(card2X + cardW / 2, cardY + cardH + Math.round(28 * scale), upgradeCost, color);
 
     if (errorMessage !== "") {
         ctx.fillStyle = "#F44336";
-        ctx.font = "22px PixelFont";
+        ctx.font = `${Math.round(9 * scale)}px PixelFont`;
         ctx.textAlign = "center";
-        ctx.fillText(errorMessage, computerWidth / 2 + computerX, computerY + computerHeight - 220);
+        ctx.fillText(errorMessage, cx, computerY + Math.round(125 * scale));
     }
 
+    const bottomY = computerY + computerHeight - Math.round(50 * scale);
+
     ctx.fillStyle = "#aab4ff";
-    ctx.font = "14px PixelFont";
+    ctx.font = `${Math.round(6 * scale)}px PixelFont`;
     ctx.textAlign = "center"
-    ctx.fillText("Select An Upgrade And Press 'Space' To Continue", computerWidth / 2 + computerX, computerY + computerHeight - 120);
+    ctx.fillText("Select An Upgrade And Press 'Space' To Continue", cx, bottomY);
 
     ctx.fillStyle = "#6b728f";
-    ctx.font = "12px PixelFont";
+    ctx.font = `${Math.round(5 * scale)}px PixelFont`;
     ctx.textAlign = "center";
-    ctx.fillText("Press 'ESC' To Deselect The Selected Upgrade", computerWidth / 2 + computerX, computerY + computerHeight - 100);
+    ctx.fillText("Press 'ESC' To Deselect The Selected Upgrade", cx, bottomY + Math.round(6 * scale) + Math.round(4 * scale));
+
+    ctx.fillStyle = "#dde3ff";
+    ctx.font = `${Math.round(5 * scale)}px PixelFont`;
+    ctx.textAlign = "center";
+    const totalY = bottomY + Math.round(6 * scale) + Math.round(5 * scale) + Math.round(4 * scale) * 2;
+    ctx.fillText(`Total Orbs Collected: ${getCurrentOrbsCount()}`, cx, totalY);
+
+    ctx.drawImage(
+        orbSheet,
+        0, 0, 16, 16,
+        cx + ctx.measureText(`Total Orbs Collected: ${getCurrentOrbsCount()}`).width / 2 + Math.round(2 * scale),
+        totalY - Math.round(4.5 * scale), Math.round(6 * scale), Math.round(6 * scale)
+    );
 }
 
 function drawOrbCost(centerX, y, cost, color) {
-    const gap = 4;
-    const orbSize = 16;
-    const orbDiameter = orbSize * 2;
 
-    ctx.font = "22px PixelFont";
+    const gap = Math.round(4 * scale);
+    const orbSize = Math.round(16 * scale);
+
+    ctx.font = `${Math.round(9 * scale)}px PixelFont`;
     const textWidth = ctx.measureText(`${cost}`).width;
 
-    const totalWidth = orbDiameter + gap + textWidth;
+    const totalWidth = orbSize + gap + textWidth;
     const startX = centerX - totalWidth / 2;
 
     ctx.drawImage(
         orbSheet,
-        0, 0, orbSize, orbSize,
-        startX, y - orbSize, orbDiameter, orbDiameter
+        0, 0, 16, 16,
+        startX, y - orbSize / 2, orbSize, orbSize
     );
 
     ctx.fillStyle = color;
     ctx.textAlign = "left";
     ctx.textBaseline = "middle";
-    ctx.fillText(`${cost}`, startX + orbDiameter + gap, y)
+    ctx.fillText(`${cost}`, startX + orbSize + gap, y);
+    ctx.textBaseline = "alphabetic";
 }
