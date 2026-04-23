@@ -41,8 +41,15 @@ const laserSprite = {
 };
 
 export const laserLevelMap = {
-    1: [
-        { id: "laser1_lvl1", row: 3, col: 4, sprite: "leftStart", frameIndex: 0, frameTimer: 0, off: false }, { id: "laser1_lvl1", row: 3, col: 5, sprite: "middle", frameIndex: 0, frameTimer: 0, off: false }, { id: "laser1_lvl1", row: 3, col: 6, sprite: "rightEnd", frameIndex: 0, frameTimer: 0, off: false }
+    3: [
+        { id: "laser1_lvl3", row: 5, col: 4, sprite: "leftStart", frameIndex: 0, frameTimer: 0, off: false }, { id: "laser1_lvl3", row: 5, col: 5, sprite: "middle", frameIndex: 0, frameTimer: 0, off: false }, { id: "laser1_lvl3", row: 5, col: 6, sprite: "rightEnd", frameIndex: 0, frameTimer: 0, off: false },
+        { id: "laser2_lvl3", row: 5, col: 11, sprite: "leftStart", frameIndex: 0, frameTimer: 0, off: false }, { id: "laser2_lvl3", row: 5, col: 12, sprite: "rightEnd", frameIndex: 0, frameTimer: 0, off: false },
+
+    ],
+    4: [
+        { id: "laser1_lvl4", row: 3, col: 7, sprite: "leftStart", frameIndex: 0, frameTimer: 0, off: false }, { id: "laser1_lvl4", row: 3, col: 8, sprite: "rightEnd", frameIndex: 0, frameTimer: 0, off: false },
+        { id: "laser2_lvl4", row: 10, col: 7, sprite: "leftStart", frameIndex: 0, frameTimer: 0, off: false }, { id: "laser2_lvl4", row: 10, col: 8, sprite: "rightEnd", frameIndex: 0, frameTimer: 0, off: false },
+
     ]
 }
 
@@ -71,7 +78,7 @@ export function resetLasers() {
         else if (laser.sprite === "offRight") laser.sprite = "rightEnd";
         else if (laser.sprite === "offMiddle") laser.sprite = "middle";
         laser.frameIndex = 0;
-        laser.frameTime = 0;
+        laser.frameTimer = 0;
         laser.off = false;
     }
 }

@@ -7,7 +7,10 @@ const tile = 16;
 
 const warningTapeMap = {
     1: [{ row: 14, col: 7 }, { row: 14, col: 8 }],
-    2: [{ row: 14, col: 2 }, { row: 14, col: 3 }]
+    2: [{ row: 14, col: 2 }, { row: 14, col: 3 }],
+    3: [{ row: 14, col: 7 }, { row: 14, col: 8 }],
+    4: [{ row: 14, col: 7 }, { row: 14, col: 8 }],
+    5: [{ row: 14, col: 7 }, { row: 14, col: 8 }]
 }
 
 export function drawWarningTape() {

@@ -73,8 +73,12 @@ const botDeathSprite = {
 }
 
 const botLevelMap = {
-    1: [
-        { row: 2, col: 4, sprite: null, currentFacing: "down", isStanding: true, isStun: false, isStunTimer: 0, isChasing: false, frameTimer: 0, frameIndex: 0 },
+    5: [
+        { row: 3, col: 4, sprite: null, currentFacing: "down", isStanding: true, isStun: false, isStunTimer: 0, isChasing: false, frameTimer: 0, frameIndex: 0 },
+        { row: 9, col: 3, sprite: null, currentFacing: "down", isStanding: true, isStun: false, isStunTimer: 0, isChasing: false, frameTimer: 0, frameIndex: 0 },
+        { row: 3, col: 11, sprite: null, currentFacing: "down", isStanding: true, isStun: false, isStunTimer: 0, isChasing: false, frameTimer: 0, frameIndex: 0 },
+        { row: 9, col: 12, sprite: null, currentFacing: "down", isStanding: true, isStun: false, isStunTimer: 0, isChasing: false, frameTimer: 0, frameIndex: 0 },
+
     ]
 };
 
@@ -108,7 +112,7 @@ export function pickRandomSpriteForBot() {
 }
 
 export function updateBot(delta) {
-    const bots = botLevelMap[currentLevel];
+    const bots = botLevelMap[currentLevel] ?? [];
     const tileSize = tile * scale;
     const chaseRadius = botEyeSight * tileSize;
     const map = getCurrentMap();
@@ -138,51 +142,51 @@ export function updateBot(delta) {
             continue;
         }
 
-        const dx = player.x - bot.x;
-        const dy = player.y - bot.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        // const dx = player.x - bot.x;
+        // const dy = player.y - bot.y;
+        // const dist = Math.sqrt(dx * dx + dy * dy);
 
-        bot.isChasing = dist < chaseRadius;
-        bot.isStanding = !bot.isChasing;
+        // bot.isChasing = dist < chaseRadius;
+        // bot.isStanding = !bot.isChasing;
 
-        if (bot.isStanding) {
-            bot.frameIndex = 0;
-            bot.frameTimer = 0;
-            continue;
-        }
+        // if (bot.isStanding) {
+        //     bot.frameIndex = 0;
+        //     bot.frameTimer = 0;
+        //     continue;
+        // }
 
-        if (dist > 1) {
-            const nx = dx / dist;
-            const ny = dy / dist;
+        // if (dist > 1) {
+        //     const nx = dx / dist;
+        //     const ny = dy / dist;
 
-            bot.x += nx * botSpeed * delta;
-            if (collidesWithWall(map, bot.x, bot.y, tileSize, tileSize) || collidesWithObject(bot.x, bot.y, tileSize, tileSize)) {
-                bot.x -= nx * botSpeed * delta;
-            }
+        //     bot.x += nx * botSpeed * delta;
+        //     if (collidesWithWall(map, bot.x, bot.y, tileSize, tileSize) || collidesWithObject(bot.x, bot.y, tileSize, tileSize)) {
+        //         bot.x -= nx * botSpeed * delta;
+        //     }
 
-            bot.y += ny * botSpeed * delta;
-            if (collidesWithWall(map, bot.x, bot.y, tileSize, tileSize) || collidesWithObject(bot.x, bot.y, tileSize, tileSize)) {
-                bot.y -= ny * botSpeed * delta;
-            }
+        //     bot.y += ny * botSpeed * delta;
+        //     if (collidesWithWall(map, bot.x, bot.y, tileSize, tileSize) || collidesWithObject(bot.x, bot.y, tileSize, tileSize)) {
+        //         bot.y -= ny * botSpeed * delta;
+        //     }
 
-            if (Math.abs(dx) > Math.abs(dy)) {
-                bot.currentFacing = dx > 0 ? "right" : "left";
-            } else {
-                bot.currentFacing = dy > 0 ? "down" : "up";
-            }
-        }
+        //     if (Math.abs(dx) > Math.abs(dy)) {
+        //         bot.currentFacing = dx > 0 ? "right" : "left";
+        //     } else {
+        //         bot.currentFacing = dy > 0 ? "down" : "up";
+        //     }
+        // }
 
-        bot.frameTimer += delta;
-        if (bot.frameTimer > maxFrameTimer) {
-            bot.frameIndex = (bot.frameIndex + 1) % botSprite[bot.currentFacing].frames.length;
-            bot.frameTimer = 0;
-        }
+        // bot.frameTimer += delta;
+        // if (bot.frameTimer > maxFrameTimer) {
+        //     bot.frameIndex = (bot.frameIndex + 1) % botSprite[bot.currentFacing].frames.length;
+        //     bot.frameTimer = 0;
+        // }
 
     }
 }
 
 export function drawBot() {
-    const bots = botLevelMap[currentLevel];
+    const bots = botLevelMap[currentLevel] ??[];
     const tileSize = tile * scale;
 
     for (let i = 0; i < bots.length; i++) {

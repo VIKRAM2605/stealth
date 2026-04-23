@@ -116,7 +116,36 @@ export const crateMap = {
         {
             row: 6, col: 4, crate: 7
         }
-    ]
+    ],
+    3: [
+        { row: 6, col: 4, crate: 1 },
+        { row: 11, col: 3, crate: 2 },
+        { row: 12, col: 4, crate: 3 },
+        { row: 8, col: 7, crate: 4 },
+        { row: 5, col: 9, crate: 5 },
+        { row: 7, col: 10, crate: 6 },
+        { row: 13, col: 13, crate: 7 },
+    ],
+    4: [
+        { row: 5, col: 4, crate: 0 },
+        { row: 10, col: 4, crate: 1 }, 
+        { row: 10, col: 8, crate: 3 },  
+        { row: 5, col: 1, crate: 4 },   
+        { row: 10, col: 1, crate: 5 }, 
+        { row: 5, col: 8, crate: 2 },  
+        { row: 2, col: 12, crate: 6 },  
+        { row: 13, col: 12, crate: 7 }, 
+    ],
+    5: [
+        { row: 7, col: 1, crate: 0 },  
+        { row: 7, col: 12, crate: 1 }, 
+        { row: 3, col: 5, crate: 2 },
+        { row: 11, col: 5, crate: 3 }, 
+        { row: 1, col: 7, crate: 4 },
+        { row: 14, col: 7, crate: 5 }, 
+        { row: 3, col: 13, crate: 6 },  
+        { row: 10, col: 12, crate: 7 },
+    ],
 
 };
 

@@ -6,21 +6,19 @@ const tile = 16;
 
 export const portalLevelMap = {
     3: [
-        {
-            id: "portal1_lvl_3",
-            animIndex: 0,
-            row: 5,
-            col: 7,
-            to: "portal2_lvl_3"
-        },
-        {
-            id: "portal2_lvl_3",
-            animIndex: 0,
-            row: 5,
-            col: 11,
-            to: "portal1_lvl_3"
-        }
-    ]
+        { id: "portal1_lvl_3", animIndex: 0, row: 1, col: 14, to: "portal2_lvl_3" },
+        { id: "portal2_lvl_3", animIndex: 0, row: 13, col: 1, to: "portal1_lvl_3" }
+    ],
+    4: [
+        { id: "portal1_lvl4", animIndex: 0, row: 2, col: 1, to: "portal4_lvl4" },
+        { id: "portal2_lvl4", animIndex: 0, row: 2, col: 14, to: "portal3_lvl4" },
+        { id: "portal3_lvl4", animIndex: 0, row: 11, col: 1, to: "portal2_lvl4" },
+        { id: "portal4_lvl4", animIndex: 0, row: 11, col: 14, to: "portal1_lvl4" },
+    ],
+    5: [
+        { id: "portal1_lvl5", animIndex: 0, row: 6, col: 1, to: "portal2_lvl5" },
+        { id: "portal2_lvl5", animIndex: 0, row: 6, col: 14, to: "portal1_lvl5" },
+    ],
 }
 
 export function drawPortal() {

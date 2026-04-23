@@ -19,11 +19,12 @@ export function getTile(map, px, py) {
 export function collidesWithWall(map, x, y, w, h) {
     const tileSize = 16 * scale;
     const topOffset = 8 * scale;
+    const sideOffset = 3 * scale;
 
-    const topLeftTile = getTile(map, x, y + topOffset);
-    const topRightTile = getTile(map, x + w, y + topOffset);
-    const bottomLeftTile = getTile(map, x, y + h);
-    const bottomRightTile = getTile(map, x + w, y + h);
+    const topLeftTile = getTile(map, x + sideOffset, y + topOffset);
+    const topRightTile = getTile(map, x + w - sideOffset, y + topOffset);
+    const bottomLeftTile = getTile(map, x + sideOffset, y + h);
+    const bottomRightTile = getTile(map, x + w - sideOffset, y + h);
 
     const walkable = (t) => t === 10 || t === 18;
 
@@ -144,7 +145,7 @@ export function collisionWithPortal(px, py, pw, ph, delta) {
 export function collisionWithLaser(px, py, pw, ph) {
     const lasers = laserLevelMap[currentLevel] ?? [];
     const tileSize = 16 * scale;
-    const buffer = scale * 2;
+    const buffer = scale * 8;
 
     for (let i = 0; i < lasers.length; i++) {
         const laser = lasers[i];
@@ -179,6 +180,8 @@ export function collisionWithButton(px, py, pw, ph, delta) {
     for (let i = 0; i < buttons.length; i++) {
         const button = buttons[i];
 
+        if (button.sprite === "on") continue;
+
         const bx = button.col * tileSize + offsetX;
         const by = button.row * tileSize + offsetY;
 
@@ -198,8 +201,9 @@ export function collisionWithButton(px, py, pw, ph, delta) {
             }
             return true;
         }
-        stepTimer = 0;
     }
+
+    stepTimer = 0;
     return false;
 }
 

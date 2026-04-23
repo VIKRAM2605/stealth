@@ -252,11 +252,46 @@ export const orbsList = {
             particleTime: 0,
             particleOffset: 0
         }
-    ]
+    ],
+    3: [
+        { id: "orb1_lvl3", orbIndex: 0, orbTime: 0, collected: false, row: 3, col: 4, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb2_lvl3", orbIndex: 0, orbTime: 0, collected: false, row: 4, col: 11, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb3_lvl3", orbIndex: 0, orbTime: 0, collected: false, row: 7, col: 2, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb4_lvl3", orbIndex: 0, orbTime: 0, collected: false, row: 7, col: 14, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb5_lvl3", orbIndex: 0, orbTime: 0, collected: false, row: 9, col: 7, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb6_lvl3", orbIndex: 0, orbTime: 0, collected: false, row: 10, col: 5, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb7_lvl3", orbIndex: 0, orbTime: 0, collected: false, row: 12, col: 13, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb8_lvl3", orbIndex: 0, orbTime: 0, collected: false, row: 13, col: 2, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb9_lvl3", orbIndex: 0, orbTime: 0, collected: false, row: 1, col: 8, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb1_lvl3", orbIndex: 0, orbTime: 0, collected: false, row: 3, col: 6, particle: null, particleTime: 0, particleOffset: 0 },
+
+    ],
+    4: [
+        { id: "orb1_lvl4", orbIndex: 0, orbTime: 0, collected: false, row: 1, col: 7, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb2_lvl4", orbIndex: 0, orbTime: 0, collected: false, row: 2, col: 4, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb3_lvl4", orbIndex: 0, orbTime: 0, collected: false, row: 2, col: 11, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb4_lvl4", orbIndex: 0, orbTime: 0, collected: false, row: 5, col: 6, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb5_lvl4", orbIndex: 0, orbTime: 0, collected: false, row: 5, col: 9, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb6_lvl4", orbIndex: 0, orbTime: 0, collected: false, row: 7, col: 7, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb7_lvl4", orbIndex: 0, orbTime: 0, collected: false, row: 11, col: 5, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb8_lvl4", orbIndex: 0, orbTime: 0, collected: false, row: 11, col: 10, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb9_lvl4", orbIndex: 0, orbTime: 0, collected: false, row: 13, col: 7, particle: null, particleTime: 0, particleOffset: 0 },
+    ],
+    5: [
+        { id: "orb1_lvl5", orbIndex: 0, orbTime: 0, collected: false, row: 1, col: 4, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb2_lvl5", orbIndex: 0, orbTime: 0, collected: false, row: 1, col: 11, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb3_lvl5", orbIndex: 0, orbTime: 0, collected: false, row: 3, col: 7, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb4_lvl5", orbIndex: 0, orbTime: 0, collected: false, row: 5, col: 1, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb5_lvl5", orbIndex: 0, orbTime: 0, collected: false, row: 5, col: 14, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb6_lvl5", orbIndex: 0, orbTime: 0, collected: false, row: 6, col: 7, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb7_lvl5", orbIndex: 0, orbTime: 0, collected: false, row: 9, col: 7, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb8_lvl5", orbIndex: 0, orbTime: 0, collected: false, row: 11, col: 1, particle: null, particleTime: 0, particleOffset: 0 },
+        { id: "orb9_lvl5", orbIndex: 0, orbTime: 0, collected: false, row: 13, col: 7, particle: null, particleTime: 0, particleOffset: 0 },
+    ],
 };
 
 export function resetMapOrbs() {
-    for (let i = 0; i < (orbsList[currentLevel]??[]).length; i++) {
+    for (let i = 0; i < (orbsList[currentLevel] ?? []).length; i++) {
         orbsList[currentLevel][i].collected = false;
         orbsList[currentLevel][i].orbIndex = 0;
         orbsList[currentLevel][i].orbTime = 0;
@@ -331,6 +366,11 @@ export function drawOrbParticles() {
 }
 
 export function pickParticleForOrbs() {
+
+    const orbs = orbsList[currentLevel];
+
+    if (!orbs || orbs.length === 0) return;
+
     let attempt = 0;
     const maxAttempt = 10;
 

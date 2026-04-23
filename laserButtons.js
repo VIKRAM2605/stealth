@@ -3,13 +3,18 @@ import { currentLevel } from "./map.js"
 
 const tile = 16;
 const buttonSprite = {
-    "on": { row: 1, col: 1 },
-    "off": { row: 1, col: 2 }
+    "off": { row: 1, col: 1 },
+    "on": { row: 1, col: 2 }
 }
 
 export const buttonLevelMap = {
-    1: [
-        { id: "button1_lvl1", off: "laser1_lvl1", row: 3, col: 8, sprite: "off" },
+    3: [
+        { id: "button1_lvl3", off: "laser1_lvl3", row: 6, col: 3, sprite: "off" },
+        { id: "button2_lvl3", off: "laser2_lvl3", row: 6, col: 13, sprite: "off" },
+    ],
+    4: [
+        { id: "button1_lvl4", off: "laser1_lvl4", row: 4, col: 9, sprite: "off" },
+        { id: "button2_lvl4", off: "laser2_lvl4", row: 9, col: 9, sprite: "off" },
     ]
 }
 
